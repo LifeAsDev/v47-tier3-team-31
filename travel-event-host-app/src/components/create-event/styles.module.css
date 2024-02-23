@@ -1,0 +1,104 @@
+.main {
+  margin: 5%;
+}
+.main h2 {
+  font-weight: 600;
+  font-size: 3em;
+  color: var(--primary-color-darker-blue);
+  text-align: center;
+}
+.main label {
+  font-weight: 600;
+  font-size: 2em;
+  color: var(--primary-color-darker-blue);
+}
+.main input {
+  width: 100%;
+  background-color: transparent;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  color: black;
+  border-radius: 4px;
+  font-size: 1em;
+}
+.main textarea {
+  width: 100%;
+  background-color: transparent;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  color: black;
+  border-radius: 4px;
+  font-size: 1em;
+  min-height: 8em;
+}
+.mainSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  margin: 3%;
+  margin-top: 0;
+}
+.categoryBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.categoriesCheckBox {
+  background-color: white;
+  border-radius: 8px;
+  padding: 2em;
+  margin-top: 1em;
+  display: grid;
+  gap: 3em;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  flex-wrap: wrap;
+  width: 100%;
+}
+.twoDivContainer {
+  gap: 3em;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.eventPhotoBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 20em;
+  min-width: 20em;
+  border: 2px dotted rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  text-align: center;
+  color: rgb(107, 114, 128);
+}
+.eventPhotoBox p:first-of-type {
+  font-size: 1.1em;
+  font-weight: 700;
+}
+.eventPhotoBox p:nth-of-type(2) {
+  font-size: 1em;
+}
+.titleBox {
+  flex-grow: 1;
+}
+.photoLeftBox {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  flex-grow: 1;
+  width: 100%;
+}
+.dateBox {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+@media (max-width: 765px) {
+  .twoDivContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+}
