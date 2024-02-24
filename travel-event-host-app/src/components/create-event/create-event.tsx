@@ -1,7 +1,7 @@
 'use client';
 import Category from '@/lib/category';
 import styles from './styles.module.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SetStateAction } from 'react';
 import CategoryDict from '@/lib/categoryArray';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
@@ -10,7 +10,11 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRange } from 'react-date-range';
 import CommonButton from '@/components/common-button/Common-Button';
 import { useTheme } from '@mui/material';
-
+interface DateSelection {
+  startDate: Date | undefined;
+  endDate: Date | undefined;
+  key: string;
+}
 const ErrorLabel = ({
   fieldname,
   errors,
@@ -23,14 +27,12 @@ const ErrorLabel = ({
   }
   return null;
 };
-const MyComponent = () => {
-  const [state, setState] = useState<
-    {
-      startDate: undefined | Date;
-      endDate: undefined | Date;
-      key: string;
-    }[]
-  >([
+
+interface MyComponentProps {
+  setDate: (dateSelection: DateSelection[]) => void;
+}
+const MyComponent: React.FC<MyComponentProps> = ({ setDate }) => {
+  const [state, setState] = useState<DateSelection[]>([
     {
       startDate: new Date(),
       endDate: new Date(),
@@ -41,11 +43,8 @@ const MyComponent = () => {
     <DateRange
       editableDateInputs={true}
       onChange={(item) => {
-        setState([item.selection] as {
-          startDate: undefined | Date;
-          endDate: undefined | Date;
-          key: string;
-        }[]);
+        setState([item.selection] as DateSelection[]);
+        setDate([item.selection] as DateSelection[]);
       }}
       moveRangeOnFirstSelection={false}
       ranges={state}
@@ -65,6 +64,16 @@ const updateCategories = () => {
 export default function CreateEvent() {
   const theme = useTheme();
   const [errors, setErrors] = useState({});
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [date, setDate] = useState<DateSelection[]>([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ]);
+  const [eventImg, setEventImg] = useState();
   const [categoryCheckboxState, setCategoryCheckboxState] = useState<{ [key in string]: boolean }>(
     {},
   );
@@ -89,11 +98,22 @@ export default function CreateEvent() {
             <div className={styles.titleBox}>
               <label htmlFor='title'>Title</label>
               <ErrorLabel fieldname='title' errors={errors} />
-              <input placeholder='Event Title' id='title' type='text'></input>
+              <input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder='Event Title'
+                id='title'
+                type='text'
+              ></input>
             </div>
             <div>
               <label htmlFor='description'>Description</label>
-              <textarea placeholder='Event Description' id='description'></textarea>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder='Event Description'
+                id='description'
+              ></textarea>
             </div>
           </div>
           <div className={styles.eventPhotoBox}>
@@ -119,7 +139,7 @@ export default function CreateEvent() {
           </div>
           <div className={styles.dateBox}>
             <label>Date</label>
-            <MyComponent />
+            <MyComponent setDate={setDate} />
           </div>
         </div>
         <CommonButton
