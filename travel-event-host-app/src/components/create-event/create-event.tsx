@@ -11,6 +11,18 @@ import { DateRange } from 'react-date-range';
 import CommonButton from '@/components/common-button/Common-Button';
 import { useTheme } from '@mui/material';
 
+const ErrorLabel = ({
+  fieldname,
+  errors,
+}: {
+  fieldname: string;
+  errors: Record<string, string[]>;
+}) => {
+  if (fieldname in errors) {
+    return <p className={styles.errorLabel}>{errors[fieldname][0]}</p>;
+  }
+  return null;
+};
 const MyComponent = () => {
   const [state, setState] = useState<
     {
@@ -52,7 +64,7 @@ const updateCategories = () => {
 
 export default function CreateEvent() {
   const theme = useTheme();
-
+  const [errors, setErrors] = useState({});
   const [categoryCheckboxState, setCategoryCheckboxState] = useState<{ [key in string]: boolean }>(
     {},
   );
@@ -67,6 +79,7 @@ export default function CreateEvent() {
     });
   };
 
+  const submitEvent = () => {};
   return (
     <main className={styles.main}>
       <h2>Create Event</h2>
@@ -75,6 +88,7 @@ export default function CreateEvent() {
           <div className={styles.photoLeftBox}>
             <div className={styles.titleBox}>
               <label htmlFor='title'>Title</label>
+              <ErrorLabel fieldname='title' errors={errors} />
               <input placeholder='Event Title' id='title' type='text'></input>
             </div>
             <div>
@@ -109,6 +123,7 @@ export default function CreateEvent() {
           </div>
         </div>
         <CommonButton
+          onButtonClick={submitEvent}
           label='Create Event'
           textColor={theme.palette.primary.thirdColorIceLight}
           backgroundColor={theme.palette.primary.primaryColorDarkBlue}
