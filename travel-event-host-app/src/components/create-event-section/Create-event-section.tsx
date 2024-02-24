@@ -1,5 +1,5 @@
 'use client';
-
+import Link from 'next/link';
 import { Box, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import CommonButton from '../common-button/Common-Button';
@@ -82,24 +82,26 @@ export function CreateEventSection() {
             [theme.breakpoints.down(720)]: { marginTop: '0px' },
           }}
         >
-          <CommonButton
-            label='Create Event'
-            textColor={theme.palette.primary.thirdColorIceLight}
-            backgroundColor={theme.palette.primary.primaryColorDarkBlue}
-            borderColor={theme.palette.primary.thirdColorIceLight}
-            additionalStyles={{
-              margin: '20px 0',
-              padding: '15px 30px',
-              minWidth: '302px',
-              fontSize: '1rem',
-              [theme.breakpoints.down(880)]: { minWidth: 0, padding: '5px 20px' },
-              [theme.breakpoints.down(720)]: {
-                '&.MuiButtonBase-root': {
-                  fontWeight: '400',
+          <Link href='/create-event'>
+            <CommonButton
+              label='Create Event'
+              textColor={theme.palette.primary.thirdColorIceLight}
+              backgroundColor={theme.palette.primary.primaryColorDarkBlue}
+              borderColor={theme.palette.primary.thirdColorIceLight}
+              additionalStyles={{
+                margin: '20px 0',
+                padding: '15px 30px',
+                minWidth: '302px',
+                fontSize: '1rem',
+                [theme.breakpoints.down(880)]: { minWidth: 0, padding: '5px 20px' },
+                [theme.breakpoints.down(720)]: {
+                  '&.MuiButtonBase-root': {
+                    fontWeight: '400',
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </Link>
         </Box>
       </Box>
     </Box>

@@ -8,6 +8,8 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRange } from 'react-date-range';
+import CommonButton from '@/components/common-button/Common-Button';
+import { useTheme } from '@mui/material';
 
 const MyComponent = () => {
   const [state, setState] = useState<
@@ -49,6 +51,8 @@ const updateCategories = () => {
 };
 
 export default function CreateEvent() {
+  const theme = useTheme();
+
   const [categoryCheckboxState, setCategoryCheckboxState] = useState<{ [key in string]: boolean }>(
     {},
   );
@@ -104,6 +108,24 @@ export default function CreateEvent() {
             <MyComponent />
           </div>
         </div>
+        <CommonButton
+          label='Create Event'
+          textColor={theme.palette.primary.thirdColorIceLight}
+          backgroundColor={theme.palette.primary.primaryColorDarkBlue}
+          borderColor={theme.palette.primary.thirdColorIceLight}
+          additionalStyles={{
+            margin: 'auto',
+            padding: '15px 30px',
+            minWidth: '302px',
+            fontSize: '1rem',
+            [theme.breakpoints.down(880)]: { minWidth: 0, padding: '5px 20px' },
+            [theme.breakpoints.down(720)]: {
+              '&.MuiButtonBase-root': {
+                fontWeight: '400',
+              },
+            },
+          }}
+        />
       </section>
     </main>
   );
