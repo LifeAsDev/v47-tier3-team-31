@@ -96,8 +96,17 @@
   flex-direction: column;
   gap: 1em;
 }
+.label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .errorLabel {
+  font-size: 1rem;
   color: red;
+  align-self: flex-end;
+  padding-bottom: 0.4rem;
 }
 @media (max-width: 765px) {
   .twoDivContainer {

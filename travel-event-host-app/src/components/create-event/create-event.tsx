@@ -73,7 +73,7 @@ export default function CreateEvent() {
       key: 'selection',
     },
   ]);
-  const [eventImg, setEventImg] = useState();
+  const [eventImg, setEventImg] = useState(null);
   const [categoryCheckboxState, setCategoryCheckboxState] = useState<{ [key in string]: boolean }>(
     {},
   );
@@ -88,7 +88,26 @@ export default function CreateEvent() {
     });
   };
 
-  const submitEvent = () => {};
+  const submitEvent = () => {
+    const errorsNow: { [key: string]: string[] } = {};
+
+    if (title === '') {
+      errorsNow.title = [...(errorsNow.title || []), "Title can't be empty"];
+    }
+    if (description === '') {
+      errorsNow.description = [...(errorsNow.description || []), "Description can't be empty"];
+    }
+    if (eventImg === null) {
+      errorsNow.eventImg = [...(errorsNow.eventImg || []), 'Event required image'];
+    }
+    if (!Object.values(categoryCheckboxState).includes(true)) {
+      errorsNow.categories = [...(errorsNow.categories || []), 'Event needs at least 1 category'];
+    }
+    if (Object.values(errorsNow).length < 0) {
+      // Create Event
+    }
+    setErrors(errorsNow);
+  };
   return (
     <main className={styles.main}>
       <h2>Create Event</h2>
@@ -96,8 +115,10 @@ export default function CreateEvent() {
         <div className={styles.twoDivContainer}>
           <div className={styles.photoLeftBox}>
             <div className={styles.titleBox}>
-              <label htmlFor='title'>Title</label>
-              <ErrorLabel fieldname='title' errors={errors} />
+              <label className={styles.label} htmlFor='title'>
+                Title
+                <ErrorLabel fieldname='title' errors={errors} />
+              </label>
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -107,7 +128,9 @@ export default function CreateEvent() {
               ></input>
             </div>
             <div>
-              <label htmlFor='description'>Description</label>
+              <label className={styles.label} htmlFor='description'>
+                Description <ErrorLabel fieldname='description' errors={errors} />
+              </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -116,15 +139,22 @@ export default function CreateEvent() {
               ></textarea>
             </div>
           </div>
-          <div className={styles.eventPhotoBox}>
-            <FileUploadIcon sx={{ fontSize: '4em', color: '#70b0db' }} />
-            <p>Click here to upload event photo</p>
-            <p>PNG, JPG or GIF(MAX. 800x400px)</p>
+          <div>
+            <label className={styles.label}>
+              <ErrorLabel fieldname='eventImg' errors={errors} />
+            </label>
+            <div className={styles.eventPhotoBox}>
+              <FileUploadIcon sx={{ fontSize: '4em', color: '#70b0db' }} />
+              <p>Click here to upload event photo</p>
+              <p>PNG, JPG or GIF(MAX. 800x400px)</p>
+            </div>
           </div>
         </div>
         <div className={styles.twoDivContainer}>
           <div className={styles.categoryBox}>
-            <label>Category</label>
+            <label className={styles.label}>
+              Category <ErrorLabel fieldname='categories' errors={errors} />
+            </label>
             <div className={styles.categoriesCheckBox}>
               {Object.entries(categoryCheckboxState).map(([category, checked]) => (
                 <FormControlLabel
@@ -138,7 +168,7 @@ export default function CreateEvent() {
             </div>
           </div>
           <div className={styles.dateBox}>
-            <label>Date</label>
+            <label className={styles.label}>Date</label>
             <MyComponent setDate={setDate} />
           </div>
         </div>
