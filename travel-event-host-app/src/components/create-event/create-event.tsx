@@ -1,7 +1,7 @@
 'use client';
 import Category from '@/lib/category';
 import styles from './styles.module.css';
-import { useState, useEffect, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import CategoryDict from '@/lib/categoryArray';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
@@ -10,6 +10,9 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRange } from 'react-date-range';
 import CommonButton from '@/components/common-button/Common-Button';
 import { useTheme } from '@mui/material';
+import Image from 'next/image';
+import event from '@/schemas/event';
+
 interface DateSelection {
   startDate: Date | undefined;
   endDate: Date | undefined;
@@ -73,7 +76,7 @@ export default function CreateEvent() {
       key: 'selection',
     },
   ]);
-  const [eventImg, setEventImg] = useState(null);
+  const [eventImg, setEventImg] = useState<File | null>(null);
   const [categoryCheckboxState, setCategoryCheckboxState] = useState<{ [key in string]: boolean }>(
     {},
   );
@@ -143,11 +146,32 @@ export default function CreateEvent() {
             <label className={styles.label}>
               <ErrorLabel fieldname='eventImg' errors={errors} />
             </label>
-            <div className={styles.eventPhotoBox}>
-              <FileUploadIcon sx={{ fontSize: '4em', color: '#70b0db' }} />
-              <p>Click here to upload event photo</p>
-              <p>PNG, JPG or GIF(MAX. 800x400px)</p>
-            </div>
+            <label htmlFor='eventPhoto' className={styles.eventPhotoBox}>
+              {eventImg ? (
+                <div className='relative h-full'>
+                  <Image
+                    className='w-full h-full object-fit'
+                    src={URL.createObjectURL(eventImg)}
+                    alt='Event Image'
+                    width={500} // Agrega el ancho de la imagen
+                    height={300} // Agrega la altura de la imagen
+                  />
+                </div>
+              ) : (
+                <>
+                  <FileUploadIcon sx={{ fontSize: '4em', color: '#70b0db' }} />
+                  <p>Click here to upload event photo</p>
+                  <p>PNG, JPG or GIF(MAX. 800x400px)</p>
+                </>
+              )}
+            </label>
+            <input
+              className={styles.inputEventPhoto}
+              type='file'
+              name='eventPhoto'
+              id='eventPhoto'
+              onChange={(e) => setEventImg(e.target.files?.[0] || null)}
+            />
           </div>
         </div>
         <div className={styles.twoDivContainer}>
@@ -158,6 +182,7 @@ export default function CreateEvent() {
             <div className={styles.categoriesCheckBox}>
               {Object.entries(categoryCheckboxState).map(([category, checked]) => (
                 <FormControlLabel
+                  sx={{ color: 'black', textWrap: 'nowrap' }}
                   key={category}
                   control={
                     <Checkbox checked={checked} onChange={handleCategoryChange} name={category} />
