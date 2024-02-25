@@ -91,7 +91,7 @@ export default function CreateEvent() {
     });
   };
   const removeSelectedImage = () => {
-    let fileInput = document.getElementById('file');
+    let fileInput = document.getElementById('eventPhoto');
 
     if (fileInput instanceof HTMLInputElement) {
       fileInput.value = '';
@@ -157,9 +157,9 @@ export default function CreateEvent() {
             </label>
             <div className={`${styles.eventPhotoBox} ${eventImg ? '' : 'cursor-pointer'}`}>
               {eventImg ? (
-                <div className='relative h-full'>
+                <div className='relative h-full w-full'>
                   <Image
-                    className='w-full h-full object-cover'
+                    className=' h-full object-cover'
                     src={URL.createObjectURL(eventImg)}
                     alt='Event Image'
                     width={500} // Agrega el ancho de la imagen
