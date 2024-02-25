@@ -59,6 +59,7 @@
   width: 100%;
 }
 .eventPhotoBox {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,7 +67,6 @@
   height: 20em;
   min-width: 20em;
   border: 2px dotted rgba(0, 0, 0, 0.25);
-  cursor: pointer;
   text-align: center;
   color: rgb(107, 114, 128);
 }
@@ -110,7 +110,12 @@
 .inputEventPhoto {
   display: none;
 }
-
+.labelEventImage {
+  cursor: pointer;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
 @media (max-width: 765px) {
   .twoDivContainer {
     flex-direction: column;

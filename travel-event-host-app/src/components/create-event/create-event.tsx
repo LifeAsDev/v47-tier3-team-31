@@ -11,7 +11,7 @@ import { DateRange } from 'react-date-range';
 import CommonButton from '@/components/common-button/Common-Button';
 import { useTheme } from '@mui/material';
 import Image from 'next/image';
-import event from '@/schemas/event';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface DateSelection {
   startDate: Date | undefined;
@@ -90,7 +90,16 @@ export default function CreateEvent() {
       [event.target.name]: event.target.checked,
     });
   };
+  const removeSelectedImage = () => {
+    let fileInput = document.getElementById('file');
 
+    if (fileInput instanceof HTMLInputElement) {
+      fileInput.value = '';
+      fileInput.dispatchEvent(new Event('change'));
+    }
+
+    setEventImg(null);
+  };
   const submitEvent = () => {
     const errorsNow: { [key: string]: string[] } = {};
 
@@ -146,25 +155,34 @@ export default function CreateEvent() {
             <label className={styles.label}>
               <ErrorLabel fieldname='eventImg' errors={errors} />
             </label>
-            <label htmlFor='eventPhoto' className={styles.eventPhotoBox}>
+            <div className={`${styles.eventPhotoBox} ${eventImg ? '' : 'cursor-pointer'}`}>
               {eventImg ? (
                 <div className='relative h-full'>
                   <Image
-                    className='w-full h-full object-fit'
+                    className='w-full h-full object-cover'
                     src={URL.createObjectURL(eventImg)}
                     alt='Event Image'
                     width={500} // Agrega el ancho de la imagen
                     height={300} // Agrega la altura de la imagen
                   />
+                  <div className='relative w-full'>
+                    <div
+                      onClick={removeSelectedImage}
+                      className='cursor-pointer p-[.5rem] rounded-[50%] absolute flex justify-center items-center right-[15px] bottom-[15px] w-[3rem] h-[3rem] bg-red-500'
+                    >
+                      <DeleteIcon sx={{ color: 'white' }} />
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <>
+                  <label className={styles.labelEventImage} htmlFor='eventPhoto'></label>
                   <FileUploadIcon sx={{ fontSize: '4em', color: '#70b0db' }} />
                   <p>Click here to upload event photo</p>
                   <p>PNG, JPG or GIF(MAX. 800x400px)</p>
                 </>
               )}
-            </label>
+            </div>
             <input
               className={styles.inputEventPhoto}
               type='file'
