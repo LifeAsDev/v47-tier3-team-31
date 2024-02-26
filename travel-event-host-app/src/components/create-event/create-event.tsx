@@ -132,7 +132,24 @@ export default function CreateEvent() {
     }
     console.log(Object.values(errorsNow));
     if (Object.values(errorsNow).length === 0) {
-      setEventImg(e.target.files?.[0] || null);
+      setEventImg(file || null);
+      try {
+        const data = new FormData();
+        data.set('image', file as File);
+        const res = await fetch('/api/event', {
+          method: 'POST',
+          body: data,
+        });
+        console.log(file);
+        if (res.ok) {
+          return true;
+        } else {
+          const data = await res.json();
+          return data.error as Record<string, string[]>;
+        }
+      } catch (error) {
+        return 'Error on signup';
+      }
     } else {
       removeSelectedImage();
     }
