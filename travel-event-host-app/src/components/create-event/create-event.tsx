@@ -1,7 +1,7 @@
 'use client';
 import Category from '@/lib/category';
 import styles from './styles.module.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import CategoryDict from '@/lib/categoryArray';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
@@ -10,7 +10,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRange } from 'react-date-range';
 import CommonButton from '@/components/common-button/Common-Button';
 import { useTheme } from '@mui/material';
-import Image from 'next/image';
+import NextImage from 'next/image';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface DateSelection {
@@ -90,6 +90,54 @@ export default function CreateEvent() {
       [event.target.name]: event.target.checked,
     });
   };
+  const uploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
+    const errorsNow: { [key: string]: string[] } = {};
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const file = e.target.files?.[0];
+    const maxSizeMB = 2;
+    const maxWidth = 800;
+    const maxHeight = 400;
+
+    if (!file || !file.type.startsWith('image/')) {
+      errorsNow.eventImg = ['Please select an image.'];
+    } else {
+      if (!allowedTypes.includes(file.type)) {
+        errorsNow.eventImg = ['Only JPEG, PNG, or GIF images are allowed.'];
+      }
+
+      if (file.size / 1024 / 1024 > maxSizeMB) {
+        errorsNow.eventImg = [`The image must be smaller than ${maxSizeMB}MB.`];
+      }
+
+      try {
+        await new Promise<void>((resolve, reject) => {
+          const imageElement = new Image();
+          imageElement.onload = function () {
+            if (imageElement.width > maxWidth || imageElement.height > maxHeight) {
+              errorsNow.eventImg = [
+                `The image must be smaller than ${maxWidth}x${maxHeight} pixels.`,
+              ];
+              reject();
+            } else {
+              resolve();
+            }
+          };
+          imageElement.onerror = function () {
+            errorsNow.eventImg = ['Error loading the image.'];
+            reject();
+          };
+          imageElement.src = URL.createObjectURL(file);
+        });
+      } catch (error) {}
+    }
+    console.log(Object.values(errorsNow));
+    if (Object.values(errorsNow).length === 0) {
+      setEventImg(e.target.files?.[0] || null);
+    } else {
+      removeSelectedImage();
+    }
+    setErrors(errorsNow);
+  };
   const removeSelectedImage = () => {
     let fileInput = document.getElementById('eventPhoto');
 
@@ -110,7 +158,7 @@ export default function CreateEvent() {
       errorsNow.description = [...(errorsNow.description || []), "Description can't be empty"];
     }
     if (eventImg === null) {
-      errorsNow.eventImg = [...(errorsNow.eventImg || []), 'Event required image'];
+      errorsNow.eventImg = [...(errorsNow.eventImg || []), 'Please upload event image'];
     }
     if (!Object.values(categoryCheckboxState).includes(true)) {
       errorsNow.categories = [...(errorsNow.categories || []), 'Event needs at least 1 category'];
@@ -158,7 +206,7 @@ export default function CreateEvent() {
             <div className={`${styles.eventPhotoBox} ${eventImg ? '' : 'cursor-pointer'}`}>
               {eventImg ? (
                 <div className='relative h-full w-full'>
-                  <Image
+                  <NextImage
                     className=' h-full object-cover'
                     src={URL.createObjectURL(eventImg)}
                     alt='Event Image'
@@ -184,11 +232,12 @@ export default function CreateEvent() {
               )}
             </div>
             <input
+              accept='image/png, image/gif, image/jpeg'
               className={styles.inputEventPhoto}
               type='file'
               name='eventPhoto'
               id='eventPhoto'
-              onChange={(e) => setEventImg(e.target.files?.[0] || null)}
+              onChange={uploadImage}
             />
           </div>
         </div>
