@@ -12,6 +12,10 @@ import CommonButton from '@/components/common-button/Common-Button';
 import { useTheme } from '@mui/material';
 import NextImage from 'next/image';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { storage } from '@/app/firebase';
+import { SetStateAction } from 'react';
+import jwt from 'jsonwebtoken';
 
 interface DateSelection {
   startDate: Date | undefined;
@@ -130,7 +134,7 @@ export default function CreateEvent() {
         });
       } catch (error) {}
     }
-    console.log(Object.values(errorsNow));
+
     if (Object.values(errorsNow).length === 0) {
       setEventImg(file || null);
       try {
@@ -140,7 +144,6 @@ export default function CreateEvent() {
           method: 'POST',
           body: data,
         });
-        console.log(file);
         if (res.ok) {
           return true;
         } else {
