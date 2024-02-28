@@ -12,10 +12,7 @@ import CommonButton from '@/components/common-button/Common-Button';
 import { useTheme } from '@mui/material';
 import NextImage from 'next/image';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { storage } from '@/app/firebase';
-import { SetStateAction } from 'react';
-import jwt from 'jsonwebtoken';
+import { useOnboardingContext } from '@/lib/context';
 
 interface DateSelection {
   startDate: Date | undefined;
@@ -69,6 +66,7 @@ const updateCategories = () => {
 };
 
 export default function CreateEvent() {
+  const { session, status } = useOnboardingContext();
   const theme = useTheme();
   const [errors, setErrors] = useState({});
   const [title, setTitle] = useState('');
@@ -137,22 +135,6 @@ export default function CreateEvent() {
 
     if (Object.values(errorsNow).length === 0) {
       setEventImg(file || null);
-      try {
-        const data = new FormData();
-        data.set('image', file as File);
-        const res = await fetch('/api/event', {
-          method: 'POST',
-          body: data,
-        });
-        if (res.ok) {
-          return true;
-        } else {
-          const data = await res.json();
-          return data.error as Record<string, string[]>;
-        }
-      } catch (error) {
-        return 'Error on signup';
-      }
     } else {
       removeSelectedImage();
     }
@@ -168,7 +150,7 @@ export default function CreateEvent() {
 
     setEventImg(null);
   };
-  const submitEvent = () => {
+  const submitEvent = async () => {
     const errorsNow: { [key: string]: string[] } = {};
 
     if (title === '') {
@@ -183,8 +165,46 @@ export default function CreateEvent() {
     if (!Object.values(categoryCheckboxState).includes(true)) {
       errorsNow.categories = [...(errorsNow.categories || []), 'Event needs at least 1 category'];
     }
-    if (Object.values(errorsNow).length < 0) {
-      // Create Event
+    if (date.length > 0 && (!date[0].startDate || !date[0].endDate)) {
+      errorsNow.date = [...(errorsNow.date || []), 'Please select start and end dates'];
+    }
+    if (Object.values(errorsNow).length === 0) {
+      try {
+        const categoriesArray: string[] = Object.entries(categoryCheckboxState)
+          .filter(([key, value]) => value === true)
+          .map(([key, _]) => key);
+
+        const data = new FormData();
+        data.set('image', eventImg as File);
+        data.set('title', title as string);
+        data.set('description', description as string);
+        data.set('eventCreatorId', session.user.id as string);
+        categoriesArray.forEach((category) => {
+          data.append('categories', category);
+        });
+        if (date.length > 0) {
+          const firstDate = date[0];
+          if (firstDate.startDate && firstDate.endDate) {
+            data.set('startDate', firstDate.startDate.toString());
+            data.set('endDate', firstDate.endDate.toString());
+          } else {
+            errorsNow.date = [...(errorsNow.date || []), 'Please select start and end dates'];
+          }
+        }
+
+        const res = await fetch('/api/event', {
+          method: 'POST',
+          body: data,
+        });
+        if (res.ok) {
+          return true;
+        } else {
+          const data = await res.json();
+          return (errorsNow.form = [...(errorsNow.form || []), data.error]);
+        }
+      } catch (error) {
+        return (errorsNow.form = [...(errorsNow.form || []), 'Something go wrong, try again']);
+      }
     }
     setErrors(errorsNow);
   };
@@ -280,10 +300,16 @@ export default function CreateEvent() {
             </div>
           </div>
           <div className={styles.dateBox}>
-            <label className={styles.label}>Date</label>
+            <label className={styles.label}>
+              Date
+              <ErrorLabel fieldname='date' errors={errors} />
+            </label>
             <MyComponent setDate={setDate} />
           </div>
         </div>
+        <label className={styles.label}>
+          <ErrorLabel fieldname='form' errors={errors} />
+        </label>
         <CommonButton
           onButtonClick={submitEvent}
           label='Create Event'
