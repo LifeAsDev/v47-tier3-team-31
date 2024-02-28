@@ -9,6 +9,10 @@ import jwt from 'jsonwebtoken';
 export async function POST(req: Request) {
   const data = await req.formData();
   const file: File | null = data.get('image') as unknown as File;
+  const title: string = data.get('title') as unknown as string;
+  const description: string = data.get('description') as unknown as string;
+  const eventCreatorId: string = data.get('eventCreatorId') as unknown as string;
+  const categories: [string] = data.get('categories') as unknown as [string];
 
   if (!file) {
     return NextResponse.json({ success: false });
@@ -21,6 +25,7 @@ export async function POST(req: Request) {
   console.log(file.name);
   const storageRef = ref(storage, `images/${token}${file.name}`);
   const uploadTask = uploadBytesResumable(storageRef, buffer);
+  let imageUrl = '';
   uploadTask.on(
     'state_changed',
     (snapshot) => {
@@ -30,28 +35,30 @@ export async function POST(req: Request) {
       console.log(error);
     },
     () => {
-      getDownloadURL(uploadTask.snapshot.ref).then((url: SetStateAction<string>) => {
+      getDownloadURL(uploadTask.snapshot.ref).then((url: string) => {
         console.log('uploaded to firebase boss');
-
-        console.log(url);
+        imageUrl = url;
       });
     },
   );
 
   await connectMongoDB();
-  const imageUrl = '';
-  return NextResponse.json({ message: 'event created the id is ' }, { status: 201 });
-  /*
   const newEvent = await Event.create({
     title,
     description,
     imageUrl,
-    participantIds,
+    participantIds: [],
     eventCreatorId,
     location,
-    startDate,
-    endDate,
+    startDate: new Date(),
+    endDate: new Date(),
     categories,
   });
-  return NextResponse.json({ message: 'event created the id is ' + newEvent.id }, { status: 201 });*/
+  if (newEvent) {
+    return NextResponse.json(
+      { message: 'event created the id is ' + newEvent.id },
+      { status: 201 },
+    );
+  }
+  return NextResponse.json({ success: false });
 }
