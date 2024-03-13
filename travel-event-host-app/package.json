@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "prepare": "cd .. && husky install travel-event-host-app/.husky"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
@@ -39,19 +38,9 @@
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
     "postcss": "^8",
     "prettier": "^3.2.2",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  },
-  "lint-staged": {
-    "*.{js, jsx,ts,tsx}": [
-      "eslint --quiet --fix"
-    ],
-    "*.{json,js,ts,jsx,tsx,html}": [
-      "prettier --write --ignore-unknown"
-    ]
   }
 }
