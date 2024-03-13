@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const storageRef = ref(storage, `images/${token}${file.name}`);
+    const storageRef = ref(storage, `images/${token}`);
     const uploadTask = uploadBytesResumable(storageRef, buffer);
 
     const imageUrl: string = await new Promise<string>((resolve, reject) => {
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
 
     if (newEvent) {
       return NextResponse.json(
-        { message: 'event created the id is ' + newEvent.id },
+        { message: 'event created the id is ' + newEvent.id, id: newEvent.id },
         { status: 201 },
       );
     }
