@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
     const storageRef = ref(storage, `images/${token}`);
     const uploadTask = uploadBytesResumable(storageRef, buffer, { contentType: file.type });
-
+    //change only for test
     const imageUrl: string = await new Promise<string>((resolve, reject) => {
       uploadTask.on(
         'state_changed',
