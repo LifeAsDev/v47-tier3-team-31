@@ -13,7 +13,7 @@ import { useTheme } from '@mui/material';
 import NextImage from 'next/image';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useOnboardingContext } from '@/lib/context';
-
+import { useRouter } from 'next/navigation';
 interface DateSelection {
   startDate: Date | undefined;
   endDate: Date | undefined;
@@ -66,6 +66,7 @@ const updateCategories = () => {
 };
 
 export default function CreateEvent() {
+  const router = useRouter();
   const { session, status } = useOnboardingContext();
   const theme = useTheme();
   const [errors, setErrors] = useState({});
@@ -196,11 +197,13 @@ export default function CreateEvent() {
           method: 'POST',
           body: data,
         });
+        const resData = await res.json();
+
         if (res.ok) {
+          router.push(`/event/${resData.id}`);
           return true;
         } else {
-          const data = await res.json();
-          return (errorsNow.form = [...(errorsNow.form || []), data.error]);
+          return (errorsNow.form = [...(errorsNow.form || []), resData.error]);
         }
       } catch (error) {
         return (errorsNow.form = [...(errorsNow.form || []), 'Something go wrong, try again']);
