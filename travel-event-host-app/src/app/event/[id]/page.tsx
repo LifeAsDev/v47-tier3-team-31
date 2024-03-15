@@ -1,3 +1,5 @@
+'use client';
+import Event from '@/components/event/event';
 import { useEffect, useState } from 'react';
 export default function Page({ params }: { params: { id: string } }) {
   const [eventData, setEventData] = useState();
@@ -20,5 +22,5 @@ export default function Page({ params }: { params: { id: string } }) {
     };
     fetchData();
   }, [params.id]);
-  return <main></main>;
+  return <Event eventData={eventData} />;
 }
