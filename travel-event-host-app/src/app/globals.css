@@ -14,8 +14,9 @@
   --color-light-night-blue: #3d37f1;
   --third-color-light-black: #424755;
   --color-charcoal: #272727;
-  --light-indigo: #636EA9;
+  --light-indigo: #636ea9;
   --grey-disabled: #8b93a7;
+  --font-color-primary: #1d275f;
 }
 
 body {
@@ -44,5 +45,5 @@ body {
   background-color: var(--primary-color-dark-blue);
 }
 .scrollbar1::-webkit-scrollbar-track {
-  background-color: var(--third-color-ice-light); 
+  background-color: var(--third-color-ice-light);
 }
