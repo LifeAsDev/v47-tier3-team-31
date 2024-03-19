@@ -11,7 +11,7 @@
   padding-top: 4%;
   display: flex;
   flex-direction: column;
-  gap: 1.25em;
+  gap: 1.5em;
   padding-bottom: 7%;
 }
 .main h2 {
@@ -64,4 +64,70 @@
   font-size: 1.2em;
   width: max-content;
   padding: 0.5em 2em;
+}
+.hostName {
+  font-size: 1.3em;
+  font-weight: 700;
+}
+.attendeesTopBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1.3em;
+}
+.attendeesCount {
+  font-weight: 400;
+}
+.attendeesSeeAll {
+  cursor: pointer;
+  color: #1099bd;
+}
+.attendeesSeeAll:hover {
+  color: #8dcddd;
+}
+.attendeesImgBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+}
+.attendeesImgRounded,
+.attendeesMoreBox {
+  width: 9em;
+  height: 12em;
+  border-radius: 50%;
+  background-color: #8dcddd;
+}
+.attendees {
+  display: flex;
+  flex-direction: column;
+  gap: 3em;
+}
+.attendeesMoreBox {
+  position: absolute;
+  right: 1.5em;
+  z-index: -1;
+  opacity: 0.5;
+}
+.attendeesLink {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.attendeesLink p {
+  font-size: 1.3em;
+  font-weight: 500;
+}
+.attendeesMoreBtn {
+  color: #1099bd;
+}
+
+.attendeesLink:hover .attendeesMoreBtn {
+  color: #8dcddd;
+}
+.participantsSection .defaultMargin {
+  margin-top: 1em;
 }

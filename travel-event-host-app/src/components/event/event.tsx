@@ -35,6 +35,37 @@ export default function Event({ eventData }: { eventData: Event | undefined }) {
           <button className={styles.subscribeBtn}>Subscribe to event</button>
         </div>
       </section>
+      <section className={styles.participantsSection}>
+        <div className={styles.defaultMargin}>
+          <header>Speaker</header>
+          <p className={styles.hostName}>Angelo Sarmiento</p>
+          <div className={styles.attendees}>
+            <div className={styles.attendeesTopBox}>
+              <p className={styles.attendeesCount}>Attendees(31)</p>
+              <p className={styles.attendeesSeeAll}>See all</p>
+            </div>
+            <div className={styles.attendeesImgBox}>
+              <div className={styles.attendeesLink}>
+                <div className={styles.attendeesImgRounded}></div>
+                <p className={styles.attendeesName}>Lucia</p>
+              </div>
+              <div className={styles.attendeesLink}>
+                <div className={styles.attendeesImgRounded}></div>
+                <p className={styles.attendeesName}>Lucia</p>
+              </div>
+              <div className={styles.attendeesLink}>
+                <div className={styles.attendeesImgRounded}></div>
+                <p className={styles.attendeesName}>Lucia</p>
+              </div>
+              <div className={styles.attendeesLink}>
+                <div className={styles.attendeesImgRounded}></div>
+                <p className={styles.attendeesMoreBtn}>More</p>
+              </div>
+              <div className={styles.attendeesMoreBox}></div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
