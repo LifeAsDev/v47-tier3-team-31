@@ -131,3 +131,32 @@
 .participantsSection .defaultMargin {
   margin-top: 1em;
 }
+.attendeesMenuBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.attendeesMenu {
+  padding: 1em;
+  width: 50%;
+  height: 50%;
+  background-color: var(--background-color-light-purple);
+}
+.inputSearch {
+  display: flex;
+  flex-direction: row;
+  width: max-content;
+  align-items: center;
+}
+.inputSearch input {
+  border-bottom: 1px solid black;
+  outline: none;
+  background-color: transparent;
+}

@@ -1,4 +1,3 @@
-'use client';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
