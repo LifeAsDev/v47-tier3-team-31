@@ -145,9 +145,14 @@
 }
 .attendeesMenu {
   padding: 1em;
-  width: 50%;
-  height: 50%;
+  width: 40em;
+  height: 18em;
   background-color: var(--background-color-light-purple);
+  display: flex;
+  gap: 1em;
+  flex-direction: column;
+  border-radius: 4px;
+  padding-right: 0;
 }
 .inputSearch {
   display: flex;
@@ -159,4 +164,39 @@
   border-bottom: 1px solid black;
   outline: none;
   background-color: transparent;
+}
+.attendeesMenuBottom {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5em;
+  overflow: auto;
+  padding-right: 0.5em;
+}
+.attendeesMenuItemImg {
+  width: 2em;
+  height: 2em;
+  background-color: aqua;
+}
+.attendeesMenuItem {
+  background-color: white;
+  width: 100%;
+  height: 3em;
+  border-radius: 4px;
+  padding: 0.5em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+}
+.attendeesMenuTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 1em;
+}
+.closeIcon path {
+  fill: var(--secondary-color-dark-black);
+}
+.closeIcon {
+  cursor: pointer;
 }
