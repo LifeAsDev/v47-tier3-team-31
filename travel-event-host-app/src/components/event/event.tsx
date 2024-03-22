@@ -5,6 +5,7 @@ import Event from '@/models/event';
 import Image from 'next/image';
 export default function Event({ eventData }: { eventData: Event | undefined }) {
   const [attendeesMenuIsOpen, setAttendeesMenuIsOpen] = useState(false);
+  const [attendeesSearchInput, setAttendeesSearchInput] = useState('');
   return (
     <main className={styles.main}>
       {attendeesMenuIsOpen ? (
@@ -12,7 +13,11 @@ export default function Event({ eventData }: { eventData: Event | undefined }) {
           <div className={styles.attendeesMenu}>
             <div className={styles.attendeesMenuTop}>
               <div className={styles.inputSearch}>
-                <input type='text'></input>
+                <input
+                  value={attendeesSearchInput}
+                  onChange={(e) => setAttendeesSearchInput(e.target.value)}
+                  type='text'
+                ></input>
                 <svg
                   width='1.25em'
                   height='1.25em'
