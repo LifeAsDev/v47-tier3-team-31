@@ -43,6 +43,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: max-content;
 }
 .main section header {
   font-weight: 600;
@@ -53,6 +54,7 @@
   display: flex;
   flex-direction: row;
   gap: 2em;
+  align-items: center;
 }
 .description {
   font-weight: 500;
@@ -91,8 +93,7 @@
   justify-content: space-between;
   position: relative;
 }
-.attendeesImgRounded,
-.attendeesMoreBox {
+.attendeesImgRounded {
   width: 9em;
   height: 12em;
   border-radius: 50%;
@@ -107,13 +108,14 @@
   position: absolute;
   right: 1.5em;
   z-index: -1;
+}
+.attendeesMoreBox .attendeesImgRounded {
   opacity: 0.5;
 }
 .attendeesLink {
   display: flex;
   flex-direction: column;
   gap: 2em;
-  justify-content: center;
   align-items: center;
   cursor: pointer;
 }
