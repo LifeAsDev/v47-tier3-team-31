@@ -5,10 +5,10 @@ import Event from '@/models/event';
 import Image from 'next/image';
 import Skeleton from '@mui/material/Skeleton';
 
-export default function Event({ eventData }: { eventData: Event | undefined | string }) {
-  console.log(eventData);
+export default function Event({ eventData }: { eventData: Event | undefined }) {
   const [attendeesMenuIsOpen, setAttendeesMenuIsOpen] = useState(false);
   const [attendeesSearchInput, setAttendeesSearchInput] = useState('');
+  const [attendeesArr, setAttendeesArr] = useState(['angelo sarmiento']);
   return (
     <main className={styles.main}>
       {attendeesMenuIsOpen ? (
@@ -114,36 +114,24 @@ export default function Event({ eventData }: { eventData: Event | undefined | st
         <div className={styles.defaultMargin}>
           {eventData ? (
             <>
-              {' '}
               <Image
                 className={styles.eventHeroImage}
                 width={500}
                 height={500}
                 alt=''
-                src={'/images/event/mock-images/mock-image-02.svg'}
+                src={eventData.imageUrl || '/images/event/mock-images/mock-image-02.svg'}
               />
               <div className={styles.mainInfo}>
                 <h2>Code Event</h2>
-                <div className={styles.dateAndAddress}>
-                  8 fev. 2024 02:00 PM - São Paulo, Brazil
-                </div>
+                <div className={styles.dateAndAddress}>{eventData.startDate.toString()}</div>
               </div>
               <p className={styles.hostedBy}>
                 Hosted By
                 <br />
-                Angelo
+                {attendeesArr[0]}{' '}
               </p>
               <header>Event Details</header>
-              <p className={styles.description}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                unknown printer took a galley of type and scrambled it to make a type specimen book.
-                It has survived not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised in the 1960s with
-                the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-                with desktop publishing software like Aldus PageMaker including versions of Lorem
-                Ipsum.
-              </p>
+              <p className={styles.description}>{eventData.description}</p>
               <button className={styles.subscribeBtn}>Subscribe to event</button>
             </>
           ) : (
@@ -180,10 +168,10 @@ export default function Event({ eventData }: { eventData: Event | undefined | st
           {eventData ? (
             <>
               <header>Speaker</header>
-              <p className={styles.hostName}>Angelo Sarmiento</p>
+              <p className={styles.hostName}>{attendeesArr[0]}</p>
               <div className={styles.attendees}>
                 <div className={styles.attendeesTopBox}>
-                  <p className={styles.attendeesCount}>Attendees(31)</p>
+                  <p className={styles.attendeesCount}>Attendees({attendeesArr.length - 1})</p>
                   <p
                     onClick={() => setAttendeesMenuIsOpen(true)}
                     className={styles.attendeesSeeAll}
