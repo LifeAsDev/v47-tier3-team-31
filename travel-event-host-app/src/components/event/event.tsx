@@ -5,10 +5,15 @@ import Event from '@/models/event';
 import Image from 'next/image';
 import Skeleton from '@mui/material/Skeleton';
 
-export default function Event({ eventData }: { eventData: Event | undefined }) {
+export default function Event({
+  eventData,
+  attendeesArr,
+}: {
+  eventData: Event | undefined;
+  attendeesArr: { imageUrl: string; firstName: string; lastName: string }[] | undefined;
+}) {
   const [attendeesMenuIsOpen, setAttendeesMenuIsOpen] = useState(false);
   const [attendeesSearchInput, setAttendeesSearchInput] = useState('');
-  const [attendeesArr, setAttendeesArr] = useState(['angelo sarmiento']);
   return (
     <main className={styles.main}>
       {attendeesMenuIsOpen ? (
@@ -125,11 +130,18 @@ export default function Event({ eventData }: { eventData: Event | undefined }) {
                 <h2>Code Event</h2>
                 <div className={styles.dateAndAddress}>{eventData.startDate.toString()}</div>
               </div>
-              <p className={styles.hostedBy}>
-                Hosted By
-                <br />
-                {attendeesArr[0]}{' '}
-              </p>
+              {attendeesArr ? (
+                <p className={styles.hostedBy}>
+                  Hosted By
+                  <br />
+                  {`${attendeesArr[0].firstName} ${attendeesArr[0].lastName}`}
+                </p>
+              ) : (
+                <p className={styles.hostedBy}>
+                  <Skeleton variant='text' sx={{ fontSize: '1.1em', width: '6em' }} />
+                  <Skeleton variant='text' sx={{ fontSize: '1.1em', width: '5em' }} />
+                </p>
+              )}
               <header>Event Details</header>
               <p className={styles.description}>{eventData.description}</p>
               <button className={styles.subscribeBtn}>Subscribe to event</button>
@@ -165,10 +177,10 @@ export default function Event({ eventData }: { eventData: Event | undefined }) {
       </section>
       <section className={styles.participantsSection}>
         <div className={styles.defaultMargin}>
-          {eventData ? (
+          {attendeesArr ? (
             <>
               <header>Speaker</header>
-              <p className={styles.hostName}>{attendeesArr[0]}</p>
+              <p className={styles.hostName}>{attendeesArr[0].firstName}</p>
               <div className={styles.attendees}>
                 <div className={styles.attendeesTopBox}>
                   <p className={styles.attendeesCount}>Attendees({attendeesArr.length - 1})</p>
@@ -183,13 +195,17 @@ export default function Event({ eventData }: { eventData: Event | undefined }) {
                   {attendeesArr.slice(1, 4).map((attendees, i) => (
                     <div key={i} className={styles.attendeesLink}>
                       <div className={styles.attendeesImgRounded}></div>
-                      <p className={styles.attendeesName}>{attendees}</p>
+                      <p className={styles.attendeesName}>
+                        {`${attendees.firstName} ${attendees.lastName}`}
+                      </p>
                     </div>
                   ))}
                   {attendeesArr.length === 5 ? (
                     <div className={styles.attendeesLink}>
                       <div className={styles.attendeesImgRounded}></div>
-                      <p className={styles.attendeesName}>{attendeesArr[4]}</p>
+                      <p className={styles.attendeesName}>
+                        {`${attendeesArr[4].firstName} ${attendeesArr[4].lastName}`}
+                      </p>
                     </div>
                   ) : attendeesArr.length > 6 ? (
                     <>
