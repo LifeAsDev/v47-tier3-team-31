@@ -180,28 +180,33 @@ export default function Event({ eventData }: { eventData: Event | undefined }) {
                   </p>
                 </div>
                 <div className={styles.attendeesImgBox}>
-                  <div className={styles.attendeesLink}>
-                    <div className={styles.attendeesImgRounded}></div>
-                    <p className={styles.attendeesName}>Lucia</p>
-                  </div>
-                  <div className={styles.attendeesLink}>
-                    <div className={styles.attendeesImgRounded}></div>
-                    <p className={styles.attendeesName}>Lucia</p>
-                  </div>
-                  <div className={styles.attendeesLink}>
-                    <div className={styles.attendeesImgRounded}></div>
-                    <p className={styles.attendeesName}>Lucia</p>
-                  </div>
-                  <div
-                    onClick={() => setAttendeesMenuIsOpen(true)}
-                    className={styles.attendeesLink}
-                  >
-                    <div className={styles.attendeesImgRounded}></div>
-                    <p className={styles.attendeesMoreBtn}>More</p>
-                  </div>
-                  <div className={styles.attendeesMoreBox}>
-                    <div className={styles.attendeesImgRounded}></div>
-                  </div>
+                  {attendeesArr.slice(1, 4).map((attendees, i) => (
+                    <div key={i} className={styles.attendeesLink}>
+                      <div className={styles.attendeesImgRounded}></div>
+                      <p className={styles.attendeesName}>{attendees}</p>
+                    </div>
+                  ))}
+                  {attendeesArr.length === 5 ? (
+                    <div className={styles.attendeesLink}>
+                      <div className={styles.attendeesImgRounded}></div>
+                      <p className={styles.attendeesName}>{attendeesArr[4]}</p>
+                    </div>
+                  ) : attendeesArr.length > 6 ? (
+                    <>
+                      <div
+                        onClick={() => setAttendeesMenuIsOpen(true)}
+                        className={styles.attendeesLink}
+                      >
+                        <div className={styles.attendeesImgRounded}></div>
+                        <p className={styles.attendeesMoreBtn}>More</p>
+                      </div>
+                      <div className={styles.attendeesMoreBox}>
+                        <div className={styles.attendeesImgRounded}></div>
+                      </div>
+                    </>
+                  ) : (
+                    ''
+                  )}
                 </div>
               </div>
             </>
