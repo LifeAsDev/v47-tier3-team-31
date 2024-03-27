@@ -79,6 +79,7 @@ export default function CreateEvent() {
       key: 'selection',
     },
   ]);
+  const [postingEvent, setPostingEvent] = useState(false);
   const [eventImg, setEventImg] = useState<File | null>(null);
   const [categoryCheckboxState, setCategoryCheckboxState] = useState<{ [key in string]: boolean }>(
     {},
@@ -197,15 +198,20 @@ export default function CreateEvent() {
           method: 'POST',
           body: data,
         });
+        setPostingEvent(true);
         const resData = await res.json();
 
         if (res.ok) {
           router.push(`/event/${resData.id}`);
           return true;
         } else {
+          setPostingEvent(false);
+
           return (errorsNow.form = [...(errorsNow.form || []), resData.error]);
         }
       } catch (error) {
+        setPostingEvent(false);
+
         return (errorsNow.form = [...(errorsNow.form || []), 'Something go wrong, try again']);
       }
     }
@@ -314,6 +320,7 @@ export default function CreateEvent() {
           <ErrorLabel fieldname='form' errors={errors} />
         </label>
         <CommonButton
+          disabled={postingEvent}
           onButtonClick={submitEvent}
           label='Create Event'
           textColor={theme.palette.primary.thirdColorIceLight}

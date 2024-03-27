@@ -12,6 +12,11 @@ export default function Event({
   eventData: Event | undefined;
   attendeesArr: { imageUrl: string; firstName: string; lastName: string }[] | undefined;
 }) {
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' } as const;
+    return date.toLocaleDateString('en-US', options);
+  }
   const [attendeesMenuIsOpen, setAttendeesMenuIsOpen] = useState(false);
   const [attendeesSearchInput, setAttendeesSearchInput] = useState('');
   return (
@@ -128,7 +133,9 @@ export default function Event({
               />
               <div className={styles.mainInfo}>
                 <h2>Code Event</h2>
-                <div className={styles.dateAndAddress}>{eventData.startDate.toString()}</div>
+                <div className={styles.dateAndAddress}>
+                  {formatDate(eventData.startDate.toString())}
+                </div>
               </div>
               {attendeesArr ? (
                 <p className={styles.hostedBy}>
@@ -183,7 +190,7 @@ export default function Event({
               <p className={styles.hostName}>{attendeesArr[0].firstName}</p>
               <div className={styles.attendees}>
                 <div className={styles.attendeesTopBox}>
-                  <p className={styles.attendeesCount}>Attendees({attendeesArr.length - 1})</p>
+                  <p className={styles.attendeesCount}>Attendees({attendeesArr.length})</p>
                   <p
                     onClick={() => setAttendeesMenuIsOpen(true)}
                     className={styles.attendeesSeeAll}
@@ -192,7 +199,7 @@ export default function Event({
                   </p>
                 </div>
                 <div className={styles.attendeesImgBox}>
-                  {attendeesArr.slice(1, 4).map((attendees, i) => (
+                  {attendeesArr.slice(0, 3).map((attendees, i) => (
                     <div key={i} className={styles.attendeesLink}>
                       <div className={styles.attendeesImgRounded}></div>
                       <p className={styles.attendeesName}>
@@ -200,14 +207,14 @@ export default function Event({
                       </p>
                     </div>
                   ))}
-                  {attendeesArr.length === 5 ? (
+                  {attendeesArr.length === 4 ? (
                     <div className={styles.attendeesLink}>
                       <div className={styles.attendeesImgRounded}></div>
                       <p className={styles.attendeesName}>
                         {`${attendeesArr[4].firstName} ${attendeesArr[4].lastName}`}
                       </p>
                     </div>
-                  ) : attendeesArr.length > 6 ? (
+                  ) : attendeesArr.length > 5 ? (
                     <>
                       <div
                         onClick={() => setAttendeesMenuIsOpen(true)}

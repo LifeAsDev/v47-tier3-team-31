@@ -8,14 +8,14 @@ export default function Page({ params }: { params: { id: string } }) {
   useEffect(() => {
     const fetchAttendeesData = async (ids: string[]) => {
       try {
-        const fetchUrl = `/api/event?id=${ids.join(',')}`;
+        const fetchUrl = `/api/user?id=${ids.join(',')}`;
         const res = await fetch(fetchUrl, {
           method: 'GET',
           headers: { 'Content-type': 'application/json' },
         });
         if (res.ok) {
           const resData = await res.json();
-          setEventData(resData.eventFound);
+          setAttendeesArr(resData.attendees);
         } else {
         }
       } catch (error) {
@@ -31,11 +31,15 @@ export default function Page({ params }: { params: { id: string } }) {
         });
         if (res.ok) {
           const resData = await res.json();
+
           setEventData(resData.eventFound);
-          const participantIds = resData.participantIds.map(
+
+          if (resData.eventFound.participantIds) {
+          }
+          const participantIds = resData.eventFound.participantIds.map(
             (participant: { userId: string; timeStamp: Date }) => participant.userId,
           );
-          const allIds = [resData.eventCreatorId, ...participantIds];
+          const allIds = [resData.eventFound.eventCreatorId, ...participantIds];
           fetchAttendeesData(allIds);
         } else {
         }

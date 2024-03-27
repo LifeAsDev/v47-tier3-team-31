@@ -14,13 +14,9 @@ export async function GET(req: Request, { params }: any) {
   if (!isValidObjectId) {
     return NextResponse.json({ message: 'Invalid ObjectId format' }, { status: 400 });
   }
-
+  console.log(ids);
   // Find users with the given IDs
   const usersFound = await User.find({ _id: { $in: ids } }).select('firstName imageUrl lastName');
-  const secureUsers: SecureUser[] = usersFound.map((user) => user.toObject()); // Convert each user to plain object
-  if (usersFound.length > 0) {
-    return NextResponse.json(secureUsers, { status: 200 });
-  } else {
-    return NextResponse.json({ message: 'No users found' }, { status: 404 });
-  }
+  const attendees: SecureUser[] = usersFound.map((user) => user.toObject()); // Convert each user to plain object
+  return NextResponse.json({ attendees }, { status: 200 });
 }
