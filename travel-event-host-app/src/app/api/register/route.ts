@@ -10,7 +10,14 @@ export async function POST(req: Request) {
   let hashedPassword = '';
 
   await connectMongoDB();
+  function getRandomRGBColor(): string {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
 
+  const imageUrl = getRandomRGBColor();
   if (password) {
     hashedPassword = await bcrypt.hash(password, 10);
   }
@@ -27,6 +34,7 @@ export async function POST(req: Request) {
       email,
       password: hashedPassword,
       firstName: name,
+      imageUrl,
     });
     console.log('user created');
 

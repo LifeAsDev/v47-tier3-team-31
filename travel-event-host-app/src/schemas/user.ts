@@ -5,10 +5,12 @@ const userSchema = new Schema<User>(
   {
     firstName: {
       type: String,
+      default: '',
     },
     imageUrl: String,
     lastName: {
       type: String,
+      default: '',
     },
     email: {
       type: String,
@@ -24,7 +26,7 @@ const userSchema = new Schema<User>(
       city: String,
       coords: { lat: Number, long: Number },
     },
-    eventIds: [String],
+    eventIds: { type: [String], default: [] },
 
     admin: {
       type: Boolean,
