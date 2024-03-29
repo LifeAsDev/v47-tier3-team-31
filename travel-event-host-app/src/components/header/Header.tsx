@@ -139,9 +139,17 @@ export default function Header() {
             </div>
           ) : status === 'authenticated' ? (
             <>
-              <div className={styles.avatarBox}>
-                <HeaderBarAvatar onLogoutClicked={signOut} userName={session.user.firstName} />
-              </div>
+              {session.imageUrl.startsWith('rgb') ? (
+                <div className={styles.avatarBox}>
+                  <HeaderBarAvatar onLogoutClicked={signOut} userName={session.user.firstName}>
+                    <div className={styles.avatarBox} style={{ backgroundColor: session.imageUrl }}>
+                      <p> {session.firstName[0].toUpperCase()}</p>
+                    </div>
+                  </HeaderBarAvatar>
+                </div>
+              ) : (
+                ''
+              )}
             </>
           ) : (
             <>

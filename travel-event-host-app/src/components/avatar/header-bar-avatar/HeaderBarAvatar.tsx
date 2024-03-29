@@ -11,18 +11,22 @@ interface HeaderBarAvatarProps {
   userName: string;
   imageUrl?: string;
   onLogoutClicked: () => void;
+  children?: React.ReactNode;
 }
 
 export default function HeaderBarAvatar({
   userName,
   imageUrl,
   onLogoutClicked,
+  children,
 }: HeaderBarAvatarProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isErrorImage, setIsErrorImage] = useState<boolean>(false);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (anchorEl) {
+      setAnchorEl(null);
+    } else setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
@@ -30,47 +34,11 @@ export default function HeaderBarAvatar({
   };
 
   return (
-    <Box>
-      <Box>
-        <ButtonBase
-          onClick={handleClick}
-          sx={{
-            '&.MuiButtonBase-root': {
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            },
-          }}
-        >
-          <Box
-            borderRadius={'50%'}
-            overflow={'hidden'}
-            borderColor={theme.palette.primary.thirdColorIceLight}
-            border={'2px solid'}
-            sx={{
-              [theme.breakpoints.down(700)]: {
-                width: '36px',
-              },
-            }}
-          >
-            {loadAvatarImage(isErrorImage, userName, setIsErrorImage, imageUrl)}
-          </Box>
-          <Box
-            // Hide the user name on mobile
-            sx={{
-              [theme.breakpoints.down(431)]: {
-                display: 'none',
-              },
-            }}
-          >
-            <Typography style={{ padding: 0 }}>{userName}</Typography>
-          </Box>
-        </ButtonBase>
-      </Box>
+    <Box onClick={handleClick}>
+      {children}
       <Menu
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
@@ -86,9 +54,6 @@ export default function HeaderBarAvatar({
       >
         {/* Add more menu options here as needed */}
         <MenuItem
-          onClick={() => {
-            handleClose();
-          }}
           sx={{
             '&.MuiList-root': {
               background: theme.palette.primary.thirdColorlightBlack,
@@ -116,10 +81,6 @@ export default function HeaderBarAvatar({
           <Link href='/dashboard'>Dashboard</Link>
         </MenuItem>
         <MenuItem
-          onClick={() => {
-            handleClose();
-            onLogoutClicked();
-          }}
           sx={{
             '&.MuiList-root': {
               background: theme.palette.primary.thirdColorlightBlack,

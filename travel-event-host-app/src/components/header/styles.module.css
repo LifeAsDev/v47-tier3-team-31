@@ -65,6 +65,17 @@
 .avatarBox {
   margin-left: 1em;
   align-self: normal;
+  border-radius: 50%;
+  height: 3.75em;
+  width: 3.75em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.avatarBox p {
+  font-weight: 600;
+  font-size: 1.5em;
 }
 .loaderSkeleton {
   background-color: var(--primary-color-dark-blue);
