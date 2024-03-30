@@ -34,8 +34,26 @@ export default function HeaderBarAvatar({
   };
 
   return (
-    <Box onClick={handleClick}>
+    <Box
+      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}
+      onClick={handleClick}
+    >
       {children}
+      <svg
+        className={`${styles.arrow} ${open ? 'rotate-180' : ''}`}
+        width='14'
+        height='8'
+        viewBox='0 0 18 10'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <path
+          d='M0.479187 0.00915527L9.22919 9.36283L17.9792 0.00915527H0.479187Z'
+          fill='#FAFAFF'
+          stroke='#FAFAFF'
+          strokeWidth='0.008'
+        />
+      </svg>
       <Menu
         anchorEl={anchorEl}
         open={open}

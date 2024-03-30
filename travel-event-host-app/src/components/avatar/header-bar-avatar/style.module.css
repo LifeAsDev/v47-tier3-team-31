@@ -10,3 +10,7 @@
     width: 32px !important;
   }
 }
+.arrow {
+  margin-left: 0.5em;
+  transition: 0.2s;
+}
