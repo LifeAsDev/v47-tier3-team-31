@@ -4,22 +4,18 @@ import Image from 'next/image';
 import { useState } from 'react';
 import styles from './style.module.css';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
+
 /**
  * This header bar has the user's avatar and name, plus a dropdown menu with options like logout.
  */
 interface HeaderBarAvatarProps {
   userName: string;
   imageUrl?: string;
-  onLogoutClicked: () => void;
   children?: React.ReactNode;
 }
 
-export default function HeaderBarAvatar({
-  userName,
-  imageUrl,
-  onLogoutClicked,
-  children,
-}: HeaderBarAvatarProps) {
+export default function HeaderBarAvatar({ userName, imageUrl, children }: HeaderBarAvatarProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isErrorImage, setIsErrorImage] = useState<boolean>(false);
   const open = Boolean(anchorEl);
@@ -28,7 +24,9 @@ export default function HeaderBarAvatar({
       setAnchorEl(null);
     } else setAnchorEl(event.currentTarget);
   };
-
+  const logout = () => {
+    signOut();
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -99,6 +97,7 @@ export default function HeaderBarAvatar({
           <Link href='/dashboard'>Dashboard</Link>
         </MenuItem>
         <MenuItem
+          onClick={logout}
           sx={{
             '&.MuiList-root': {
               background: theme.palette.primary.thirdColorlightBlack,

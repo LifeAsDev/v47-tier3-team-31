@@ -8,7 +8,6 @@ import { useState } from 'react';
 import AuthDialog from '../auth-dialog/AuthDialog';
 import HeaderBarAvatar from '../avatar/header-bar-avatar/HeaderBarAvatar';
 import styles from './styles.module.css';
-import { signOut } from 'next-auth/react';
 import { useOnboardingContext } from '@/lib/context';
 import Image from 'next/image';
 
@@ -140,7 +139,7 @@ export default function Header() {
           ) : status === 'authenticated' ? (
             <>
               {session.imageUrl.startsWith('rgb') ? (
-                <HeaderBarAvatar onLogoutClicked={signOut} userName={session.user.firstName}>
+                <HeaderBarAvatar userName={session.user.firstName}>
                   <div className={styles.avatarBox} style={{ backgroundColor: session.imageUrl }}>
                     <p> {session.firstName[0].toUpperCase()}</p>
                   </div>

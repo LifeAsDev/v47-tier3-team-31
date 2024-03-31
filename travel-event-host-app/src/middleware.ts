@@ -1,7 +1,7 @@
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-const blockedPagesWithoutLogin = ['/dashboard', '/create-event'];
+const blockedPagesWithoutLogin = ['/dashboard', '/create-event', '/event'];
 
 export default async function middleware(req: NextRequest) {
   const session = await getToken({
@@ -19,7 +19,7 @@ export default async function middleware(req: NextRequest) {
 
   const currentUrl = req.nextUrl.pathname;
   // Store current request url in a custom header, which you can read later
-  if (blockedPagesWithoutLogin.includes(currentUrl) && !session) {
+  if (blockedPagesWithoutLogin.some((page) => currentUrl.startsWith(page)) && !session) {
     return NextResponse.redirect(home);
   }
   // If user is unauthenticated, continue.
