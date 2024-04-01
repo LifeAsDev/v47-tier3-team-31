@@ -6,7 +6,6 @@ import { storage } from '@/app/firebase';
 import jwt from 'jsonwebtoken';
 
 export async function POST(req: Request) {
-  console.log('posting event');
   try {
     const data = await req.formData();
     const file: File | null = data.get('image') as unknown as File;
@@ -67,7 +66,6 @@ export async function POST(req: Request) {
       endDate: endDateObj,
       categories,
     });
-    console.log(newEvent);
 
     if (newEvent) {
       return NextResponse.json(

@@ -1,14 +1,15 @@
 'use client';
 import Event from '@/components/event/event';
+import Attendees from '@/models/attendees';
 import { useEffect, useState } from 'react';
 export default function Page({ params }: { params: { id: string } }) {
   const [eventData, setEventData] = useState();
-  const [attendeesArr, setAttendeesArr] = useState();
+  const [attendeesArr, setAttendeesArr] = useState<Attendees[] | undefined>(undefined);
 
   useEffect(() => {
     const fetchAttendeesData = async (ids: string[]) => {
       try {
-        const fetchUrl = `/api/user?id=${ids.join(',')}`;
+        const fetchUrl = `/api/user?${ids.map((id) => `id=${id}`).join('&')}`;
         const res = await fetch(fetchUrl, {
           method: 'GET',
           headers: { 'Content-type': 'application/json' },
@@ -33,13 +34,13 @@ export default function Page({ params }: { params: { id: string } }) {
           const resData = await res.json();
 
           setEventData(resData.eventFound);
-
           if (resData.eventFound.participantIds) {
           }
           const participantIds = resData.eventFound.participantIds.map(
             (participant: { userId: string; timeStamp: Date }) => participant.userId,
           );
           const allIds = [resData.eventFound.eventCreatorId, ...participantIds];
+
           fetchAttendeesData(allIds);
         } else {
         }
@@ -49,5 +50,7 @@ export default function Page({ params }: { params: { id: string } }) {
     };
     fetchData();
   }, [params.id]);
-  return <Event eventData={eventData} attendeesArr={attendeesArr} />;
+  return (
+    <Event setAttendeesArr={setAttendeesArr} eventData={eventData} attendeesArr={attendeesArr} />
+  );
 }

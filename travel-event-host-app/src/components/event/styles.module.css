@@ -67,6 +67,9 @@
   width: max-content;
   padding: 0.5em 2em;
 }
+.subscribeBtn:hover {
+  background-color: rgba(21, 89, 191, 0.8);
+}
 .hostName {
   font-size: 1.3em;
   font-weight: 700;
@@ -90,7 +93,7 @@
 .attendeesImgBox {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   position: relative;
 }
 .attendeesImgRounded {

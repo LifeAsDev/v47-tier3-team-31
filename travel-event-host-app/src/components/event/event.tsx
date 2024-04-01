@@ -1,19 +1,19 @@
-'use client';
 import { useState } from 'react';
 import styles from './styles.module.css';
 import Event from '@/models/event';
 import Image from 'next/image';
 import Skeleton from '@mui/material/Skeleton';
 import { useOnboardingContext } from '@/lib/context';
+import Attendees from '@/models/attendees';
 
 export default function Event({
   eventData,
   attendeesArr,
+  setAttendeesArr,
 }: {
+  setAttendeesArr: React.Dispatch<React.SetStateAction<Attendees[] | undefined>>;
   eventData: Event | undefined;
-  attendeesArr:
-    | { imageUrl: string; firstName: string; lastName: string; _id: string }[]
-    | undefined;
+  attendeesArr: Attendees[] | undefined;
 }) {
   function formatDate(dateString: string) {
     const date = new Date(dateString);
@@ -24,9 +24,58 @@ export default function Event({
   const { session, status } = useOnboardingContext();
   const [attendeesMenuIsOpen, setAttendeesMenuIsOpen] = useState(false);
   const [attendeesSearchInput, setAttendeesSearchInput] = useState('');
-  if (attendeesArr) console.log(attendeesArr[0]._id);
-  if (session) console.log(session._id);
 
+  const subscribeToEvent = () => {
+    const userAttende = {
+      imageUrl: session.imageUrl,
+      firstName: session.firstName,
+      lastName: session.lastName,
+      _id: session._id,
+    };
+    setAttendeesArr((prev): Attendees[] => [...(prev || []), userAttende]);
+    const fetchSubscribe = async () => {
+      try {
+        const fetchUrl = `/api/event/${eventData?._id}/subscribe`;
+        const res = await fetch(fetchUrl, {
+          method: 'PATCH',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify({ userId: session._id }),
+        });
+        const resData = await res.json();
+
+        if (res.ok) {
+        } else {
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSubscribe();
+  };
+  const unSubscribeToEvent = () => {
+    setAttendeesArr((prevAttendeesArr) =>
+      (prevAttendeesArr || []).filter((attende) => attende._id !== session._id),
+    );
+
+    const fetchUnsubscribe = async () => {
+      try {
+        const fetchUrl = `/api/event/${eventData?._id}/unsubscribe`;
+
+        const res = await fetch(fetchUrl, {
+          method: 'PATCH',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify({ userId: session._id }),
+        });
+        if (res.ok) {
+          const resData = await res.json();
+        } else {
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUnsubscribe();
+  };
   return (
     <main className={styles.main}>
       {attendeesMenuIsOpen ? (
@@ -162,12 +211,20 @@ export default function Event({
               )}
               <header>Event Details</header>
               <p className={styles.description}>{eventData.description}</p>
-              {attendeesArr && attendeesArr[0]._id === session._id ? (
-                ''
-              ) : attendeesArr && attendeesArr?.some((attende) => attende._id === session._id) ? (
-                <button className={styles.subscribeBtn}>Unsubscribe to event</button>
+              {attendeesArr ? (
+                attendeesArr[0]._id === session._id ? (
+                  ''
+                ) : attendeesArr?.some((attende) => attende._id === session._id) ? (
+                  <button onClick={unSubscribeToEvent} className={styles.subscribeBtn}>
+                    Unsubscribe to event
+                  </button>
+                ) : (
+                  <button onClick={subscribeToEvent} className={styles.subscribeBtn}>
+                    Subscribe to event
+                  </button>
+                )
               ) : (
-                <button className={styles.subscribeBtn}>Subscribe to event</button>
+                ''
               )}
             </>
           ) : (
