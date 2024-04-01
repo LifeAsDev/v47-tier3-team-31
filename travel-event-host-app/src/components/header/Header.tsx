@@ -17,6 +17,7 @@ export default function Header() {
   const [navMenuIsOpen, setnavMenuIsOpen] = useState<boolean>(false);
   const [signupDialogOpen, setSignupDialogOpen] = useState<boolean>(false);
   const [loginDialogOpen, setloginDialogOpen] = useState<boolean>(false);
+  console.log(session);
   return (
     <header className={styles.header}>
       <div>

@@ -9,7 +9,6 @@ export async function GET(req: Request, { params }: any) {
   const { searchParams } = new URL(req.url);
   const query1 = searchParams.get('query1');
   await connectMongoDB();
-
   const id = params.id;
   const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
   if (!isValidObjectId) {

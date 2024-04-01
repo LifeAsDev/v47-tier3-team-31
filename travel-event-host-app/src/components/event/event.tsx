@@ -4,21 +4,29 @@ import styles from './styles.module.css';
 import Event from '@/models/event';
 import Image from 'next/image';
 import Skeleton from '@mui/material/Skeleton';
+import { useOnboardingContext } from '@/lib/context';
 
 export default function Event({
   eventData,
   attendeesArr,
 }: {
   eventData: Event | undefined;
-  attendeesArr: { imageUrl: string; firstName: string; lastName: string }[] | undefined;
+  attendeesArr:
+    | { imageUrl: string; firstName: string; lastName: string; _id: string }[]
+    | undefined;
 }) {
   function formatDate(dateString: string) {
     const date = new Date(dateString);
     const options = { year: 'numeric', month: 'long', day: 'numeric' } as const;
     return date.toLocaleDateString('en-US', options);
   }
+
+  const { session, status } = useOnboardingContext();
   const [attendeesMenuIsOpen, setAttendeesMenuIsOpen] = useState(false);
   const [attendeesSearchInput, setAttendeesSearchInput] = useState('');
+  if (attendeesArr) console.log(attendeesArr[0]._id);
+  if (session) console.log(session._id);
+
   return (
     <main className={styles.main}>
       {attendeesMenuIsOpen ? (
@@ -135,6 +143,9 @@ export default function Event({
                 <h2>Code Event</h2>
                 <div className={styles.dateAndAddress}>
                   {formatDate(eventData.startDate.toString())}
+                  {eventData.startDate === eventData.endDate
+                    ? ''
+                    : ` - ${formatDate(eventData.endDate.toString())}`}
                 </div>
               </div>
               {attendeesArr ? (
@@ -151,7 +162,13 @@ export default function Event({
               )}
               <header>Event Details</header>
               <p className={styles.description}>{eventData.description}</p>
-              <button className={styles.subscribeBtn}>Subscribe to event</button>
+              {attendeesArr && attendeesArr[0]._id === session._id ? (
+                ''
+              ) : attendeesArr && attendeesArr?.some((attende) => attende._id === session._id) ? (
+                <button className={styles.subscribeBtn}>Unsubscribe to event</button>
+              ) : (
+                <button className={styles.subscribeBtn}>Subscribe to event</button>
+              )}
             </>
           ) : (
             <>

@@ -47,13 +47,14 @@ const handler = NextAuth({
 
     async session({ session, user, token }) {
       try {
-        const fetchUrl = `${process.env.NEXTAUTH_URL}/api/user/${token.id}`;
+        const fetchUrl = `${process.env.NEXTAUTH_URL}/api/user/${token.sub}`;
         const res = await fetch(fetchUrl, {
           method: 'GET',
           headers: { 'Content-type': 'application/json' },
         });
         if (res.ok) {
           const resData = await res.json();
+
           session = { ...session, ...resData };
         } else {
         }
