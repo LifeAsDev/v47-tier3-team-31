@@ -63,19 +63,17 @@
   gap: 0.5em;
 }
 .avatarBox {
-  align-self: normal;
-  border-radius: 50%;
   height: 3.5em;
   width: 3.5em;
+  align-self: normal;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  overflow: hidden;
 }
-.avatarBox p {
-  font-weight: 600;
-  font-size: 1.5em;
-}
+
 .loaderSkeleton {
   background-color: var(--primary-color-dark-blue);
   opacity: 0.8;

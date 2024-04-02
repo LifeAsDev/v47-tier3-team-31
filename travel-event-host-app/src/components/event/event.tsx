@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Skeleton from '@mui/material/Skeleton';
 import { useOnboardingContext } from '@/lib/context';
 import Attendees from '@/models/attendees';
+import AvatarImage from '@/components/avatar/avatarImage/avatarImage';
 
 export default function Event({
   eventData,
@@ -119,58 +120,18 @@ export default function Event({
               </svg>
             </div>
             <div className={`${styles.attendeesMenuBottom} scrollbar1`}>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Lucia</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Pedro</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Tony</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Ana</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Ana</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Ana</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Ana</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Ana</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Ana</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Ana</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Ana</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Ana</p>
-              </div>
-              <div className={styles.attendeesMenuItem}>
-                <div className={styles.attendeesMenuItemImg}></div>
-                <p className={styles.attendeesMenuItemName}>Ana</p>
-              </div>
+              {attendeesArr
+                ? attendeesArr.map((attende, i) => (
+                    <div key={i} className={styles.attendeesMenuItem}>
+                      <div className={styles.attendeesMenuItemImg}>
+                        <AvatarImage attende={attende} />
+                      </div>
+                      <p className={styles.attendeesMenuItemName}>
+                        {`${attende.firstName} ${attende.lastName}`}
+                      </p>
+                    </div>
+                  ))
+                : ''}
             </div>
           </div>
         </div>
@@ -211,7 +172,7 @@ export default function Event({
               )}
               <header>Event Details</header>
               <p className={styles.description}>{eventData.description}</p>
-              {attendeesArr ? (
+              {attendeesArr && session ? (
                 attendeesArr[0]._id === session._id ? (
                   ''
                 ) : attendeesArr?.some((attende) => attende._id === session._id) ? (
@@ -273,17 +234,21 @@ export default function Event({
                   </p>
                 </div>
                 <div className={styles.attendeesImgBox}>
-                  {attendeesArr.slice(0, 3).map((attendees, i) => (
+                  {attendeesArr.slice(0, 2).map((attende, i) => (
                     <div key={i} className={styles.attendeesLink}>
-                      <div className={styles.attendeesImgRounded}></div>
+                      <div className={styles.attendeesImgRounded}>
+                        <AvatarImage attende={attende} />
+                      </div>
                       <p className={styles.attendeesName}>
-                        {`${attendees.firstName} ${attendees.lastName}`}
+                        {`${attende.firstName} ${attende.lastName}`}
                       </p>
                     </div>
                   ))}
                   {attendeesArr.length === 4 ? (
                     <div className={styles.attendeesLink}>
-                      <div className={styles.attendeesImgRounded}></div>
+                      <div className={styles.attendeesImgRounded}>
+                        <AvatarImage attende={attendeesArr[4]} />
+                      </div>
                       <p className={styles.attendeesName}>
                         {`${attendeesArr[4].firstName} ${attendeesArr[4].lastName}`}
                       </p>
@@ -294,11 +259,15 @@ export default function Event({
                         onClick={() => setAttendeesMenuIsOpen(true)}
                         className={styles.attendeesLink}
                       >
-                        <div className={styles.attendeesImgRounded}></div>
+                        <div className={styles.attendeesImgRounded}>
+                          <AvatarImage attende={attendeesArr[4]} />
+                        </div>
                         <p className={styles.attendeesMoreBtn}>More</p>
                       </div>
                       <div className={styles.attendeesMoreBox}>
-                        <div className={styles.attendeesImgRounded}></div>
+                        <div className={styles.attendeesImgRounded}>
+                          <AvatarImage attende={attendeesArr[5]} />
+                        </div>
                       </div>
                     </>
                   ) : (

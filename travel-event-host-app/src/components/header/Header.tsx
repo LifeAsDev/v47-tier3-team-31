@@ -10,6 +10,7 @@ import HeaderBarAvatar from '../avatar/header-bar-avatar/HeaderBarAvatar';
 import styles from './styles.module.css';
 import { useOnboardingContext } from '@/lib/context';
 import Image from 'next/image';
+import AvatarImage from '@/components/avatar/avatarImage/avatarImage';
 
 export default function Header() {
   const { session, status } = useOnboardingContext();
@@ -140,8 +141,8 @@ export default function Header() {
             <>
               {session.imageUrl.startsWith('rgb') ? (
                 <HeaderBarAvatar userName={session.user.firstName}>
-                  <div className={styles.avatarBox} style={{ backgroundColor: session.imageUrl }}>
-                    <p> {session.firstName[0].toUpperCase()}</p>
+                  <div className={styles.avatarBox}>
+                    <AvatarImage attende={session} />
                   </div>
                 </HeaderBarAvatar>
               ) : (

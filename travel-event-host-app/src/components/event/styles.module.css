@@ -101,6 +101,11 @@
   height: 12em;
   border-radius: 50%;
   background-color: #8dcddd;
+  overflow: hidden;
+}
+.attendeesImgRounded > div > p {
+  font-size: 2.5em;
+  font-weight: 700;
 }
 .attendees {
   display: flex;
