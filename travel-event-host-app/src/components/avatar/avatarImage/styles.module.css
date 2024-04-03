@@ -6,6 +6,7 @@
   cursor: pointer;
   width: 100%;
   height: 100%;
+  user-select: none;
 }
 .avatarBox p {
   font-weight: 600;
