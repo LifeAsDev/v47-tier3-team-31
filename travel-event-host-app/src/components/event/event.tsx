@@ -121,16 +121,21 @@ export default function Event({
             </div>
             <div className={`${styles.attendeesMenuBottom} scrollbar1`}>
               {attendeesArr
-                ? attendeesArr.map((attende, i) => (
-                    <div key={i} className={styles.attendeesMenuItem}>
-                      <div className={styles.attendeesMenuItemImg}>
-                        <AvatarImage attende={attende} />
+                ? attendeesArr
+                    .filter((attende) => {
+                      const fullName = `${attende.firstName} ${attende.lastName}`;
+                      return fullName.toLowerCase().includes(attendeesSearchInput.toLowerCase());
+                    })
+                    .map((attende, i) => (
+                      <div key={i} className={styles.attendeesMenuItem}>
+                        <div className={styles.attendeesMenuItemImg}>
+                          <AvatarImage attende={attende} />
+                        </div>
+                        <p className={styles.attendeesMenuItemName}>
+                          {`${attende.firstName} ${attende.lastName}`}
+                        </p>
                       </div>
-                      <p className={styles.attendeesMenuItemName}>
-                        {`${attende.firstName} ${attende.lastName}`}
-                      </p>
-                    </div>
-                  ))
+                    ))
                 : ''}
             </div>
           </div>
