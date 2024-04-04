@@ -37,6 +37,8 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
           '&:hover': {
             boxShadow: '0px 0px 10px 10px rgba(0,0,0,0.2)',
           },
+          height: '280px',
+          overflow: 'hidden',
         }}
       >
         <Box
@@ -48,6 +50,7 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
               flexDirection: 'row-reverse',
               justifyContent: 'space-between',
             },
+            height: '100%',
           }}
         >
           <Box>
@@ -60,12 +63,16 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
           </Box>
           <CardContent
             sx={{
-              padding: '16px',
+              display: 'flex',
+              padding: '12px !important',
               [theme.breakpoints.down(719)]: {
                 '&.MuiCardContent-root:last-child': {
                   padding: 0,
                 },
               },
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100%',
             }}
           >
             <Box
@@ -76,12 +83,14 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
                   paddingTop: '10px',
                   paddingLeft: '10px',
                 },
+                height: '100%',
+                width: '100%',
               }}
             >
               <Box sx={{ textAlign: 'center' }}>
                 <CalendarDateComponent date={hostedEvent.startDate} />
               </Box>
-              <Box ml={3}>
+              <Box sx={{ overflow: 'hidden', height: '83px' }} ml={3}>
                 <CustomResponsiveTypoGraphy style={{ lineHeight: 1, fontWeight: 'bold' }}>
                   {hostedEvent.title || 'Mock event title'}
                 </CustomResponsiveTypoGraphy>
@@ -127,13 +136,22 @@ function getEventImage(imageUrl?: string): string {
 function CalendarDateComponent({ date }: { date: Date }) {
   const theme = useTheme();
   return (
-    <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        height: '100%',
+        gap: '8px',
+        width: 'max-content',
+      }}
+    >
       <Box>
         <Typography
           sx={{
             textTransform: 'uppercase',
             color: '#3D37F1',
-            textAlign: 'left',
+            textAlign: 'center',
             fontWeight: 'bold',
             fontSize: '11.37px',
             lineHeight: 1,

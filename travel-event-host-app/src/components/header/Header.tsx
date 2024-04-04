@@ -139,7 +139,7 @@ export default function Header() {
             </div>
           ) : status === 'authenticated' ? (
             <>
-              {session.imageUrl.startsWith('rgb') ? (
+              {session && session.imageUrl.startsWith('rgb') ? (
                 <HeaderBarAvatar userName={session.user.firstName}>
                   <div className={styles.avatarBox}>
                     <AvatarImage attende={session} />
