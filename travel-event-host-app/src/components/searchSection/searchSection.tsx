@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import EventCard from '../event/event-card/Event-card';
 import FilterBox from './searchEventsFilterBox/filterBox';
 import { SearchInput } from './searchInput/searchInput';
+import Link from 'next/link';
 
 export default function SearchSection({ keyword }: { keyword: string }) {
   const [sortBy, setSortBy] = useState<string>('Date');
@@ -21,7 +22,7 @@ export default function SearchSection({ keyword }: { keyword: string }) {
   const router = useRouter();
 
   const handleSearch = (searchInput: string) => {
-    const url = `/searchevent/${searchInput}`; // Construct the URL
+    const url = `/search-events/${searchInput}`; // Construct the URL
     router.push(url); // Navigate to the URL
   };
 
@@ -82,11 +83,15 @@ export default function SearchSection({ keyword }: { keyword: string }) {
           {resultEventList.length > 0 ? (
             resultEventList.map((event) => (
               <li key={event['_id']}>
-                <EventCard hostedEvent={event} />
+                <Link href={`/event/${event['_id']}`}>
+                  <EventCard hostedEvent={event} />
+                </Link>
               </li>
             ))
+          ) : keyword ? (
+            <p className={styles.eventNotFound}>No events found for "{keyword}"</p>
           ) : (
-            <p className={styles.eventNotFound}>Events Not Found</p>
+            <p className={styles.eventNotFound}>Please enter search text</p>
           )}
         </ul>
       </Box>

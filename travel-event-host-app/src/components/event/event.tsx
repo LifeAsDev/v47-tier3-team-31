@@ -155,7 +155,7 @@ export default function Event({
                 src={eventData.imageUrl || '/images/event/mock-images/mock-image-02.svg'}
               />
               <div className={styles.mainInfo}>
-                <h2>Code Event</h2>
+                <h2>{eventData.title}</h2>
                 <div className={styles.dateAndAddress}>
                   {formatDate(eventData.startDate.toString())}
                   {eventData.startDate === eventData.endDate

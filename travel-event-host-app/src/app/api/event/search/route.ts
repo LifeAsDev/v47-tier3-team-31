@@ -42,7 +42,7 @@ export async function GET(req: Request) {
   } else {
     return NextResponse.json(
       { totalCount: 0, events: [], message: 'Not found events' },
-      { status: 200 },
+      { status: 404 },
     );
   }
 }
