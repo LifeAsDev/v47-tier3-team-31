@@ -26,18 +26,19 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
     >
       <Card
         sx={{
-          maxWidth: '280px', // Change this value to change the width of the card
+          width: '280px', // Change this value to change the width of the card
           margin: '1%',
-          [theme.breakpoints.down(720)]: {
-            maxWidth: '100%',
+          [theme.breakpoints.down(719)]: {
+            width: '100%',
             boxShadow: 'none',
             borderRadius: '0px',
             marginRight: 0,
+            height: '140px',
           },
           '&:hover': {
             boxShadow: '0px 0px 10px 10px rgba(0,0,0,0.2)',
           },
-          height: '280px',
+          height: '270px',
           overflow: 'hidden',
         }}
       >
@@ -46,14 +47,16 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            [theme.breakpoints.down(720)]: {
+            [theme.breakpoints.down(719)]: {
               flexDirection: 'row-reverse',
               justifyContent: 'space-between',
             },
             height: '100%',
           }}
         >
-          <Box>
+          <Box
+            sx={{ [theme.breakpoints.down(719)]: { width: '40%', height: '100%' }, height: '60%' }}
+          >
             <Image
               src={getEventImage(hostedEvent.imageUrl)}
               fill
@@ -69,10 +72,13 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
                 '&.MuiCardContent-root:last-child': {
                   padding: 0,
                 },
+                height: '100%',
+                width: '60%',
               },
               justifyContent: 'center',
               alignItems: 'center',
-              height: '100%',
+              height: '40%',
+              boxSizing: 'border-box',
             }}
           >
             <Box
@@ -81,7 +87,7 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
                 display: 'flex',
                 [theme.breakpoints.down(719)]: {
                   paddingTop: '10px',
-                  paddingLeft: '10px',
+                  paddingLeft: '0',
                 },
                 height: '100%',
                 width: '100%',
@@ -90,7 +96,7 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
               <Box sx={{ textAlign: 'center' }}>
                 <CalendarDateComponent date={hostedEvent.startDate} />
               </Box>
-              <Box sx={{ overflow: 'hidden', height: '83px' }} ml={3}>
+              <Box sx={{ overflow: 'hidden', height: '100%' }} ml={2}>
                 <CustomResponsiveTypoGraphy style={{ lineHeight: 1, fontWeight: 'bold' }}>
                   {hostedEvent.title || 'Mock event title'}
                 </CustomResponsiveTypoGraphy>
@@ -99,10 +105,7 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
                   sx={{
                     lineHeight: 1,
                     color: '#6A6A6A',
-                    [theme.breakpoints.down(420)]: {
-                      marginTop: '10px',
-                      paddingBottom: '10px',
-                    },
+                    [theme.breakpoints.down(420)]: {},
                   }}
                 >
                   {hostedEvent.description || 'Mock event description'}
@@ -140,7 +143,7 @@ function CalendarDateComponent({ date }: { date: Date }) {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         height: '100%',
         gap: '8px',
         width: 'max-content',
@@ -153,10 +156,10 @@ function CalendarDateComponent({ date }: { date: Date }) {
             color: '#3D37F1',
             textAlign: 'center',
             fontWeight: 'bold',
-            fontSize: '11.37px',
+            fontSize: '13px',
             lineHeight: 1,
             [theme.breakpoints.down(719)]: {
-              fontWeight: 'lighter',
+              fontWeight: '500',
             },
           }}
         >
@@ -172,12 +175,12 @@ function CalendarDateComponent({ date }: { date: Date }) {
             fontSize: '28.43px',
             [theme.breakpoints.down(560)]: {
               '&.MuiTypography-root': {
-                fontSize: '20px',
+                fontSize: '24px',
               },
             },
             [theme.breakpoints.between(561, 719)]: {
               '&.MuiTypography-root': {
-                fontSize: '24px',
+                fontSize: '28px',
               },
             },
           }}
@@ -188,7 +191,7 @@ function CalendarDateComponent({ date }: { date: Date }) {
       <Box>
         {/* Event's time section */}
         <Box className='eventStartTime' mt={1}>
-          <Typography fontSize={'10px'} sx={{ textWrap: 'wrap' }}>
+          <Typography fontSize={'11px'} sx={{ textWrap: 'wrap' }}>
             {dayjs(date).format('h:mm A')}
           </Typography>
         </Box>
@@ -199,8 +202,7 @@ function CalendarDateComponent({ date }: { date: Date }) {
 
 // This will handle the responsive typography for the event card title and description
 const CustomResponsiveTypoGraphy = styled(Typography)(({ theme }) => ({
-  fontSize: '0.5rem',
-  [theme.breakpoints.up(380)]: {
-    fontSize: '0.7rem',
-  },
+  fontSize: '0.7rem',
+
+  [theme.breakpoints.up(380)]: {},
 }));

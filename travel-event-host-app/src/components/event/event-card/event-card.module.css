@@ -1,19 +1,6 @@
 .eventImage {
   position: relative !important;
-  max-width: 343px !important;
-  height: 173px !important;
-}
 
-@media screen and (max-width: 719px) {
-  .eventImage {
-    width: 180px !important;
-    height: 100px !important;
-  }
-}
-
-@media screen and (max-width: 440px) {
-  .eventImage {
-    width: 120px !important;
-    height: 68px !important;
-  }
+  width: 100%;
+  object-fit: cover;
 }
