@@ -16,13 +16,14 @@
   color: var(--third-color-ice-light);
   line-height: 1.3em;
 }
-.navList ul {
+.header .navList ul {
   color: var(--third-color-ice-light);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: 350;
+  gap: 1.5em;
 }
 .navList {
   max-width: 773px;
@@ -89,6 +90,7 @@
 }
 .closeIcon {
   margin-left: auto;
+  cursor: pointer;
 }
 .overlay {
   display: none;
@@ -135,12 +137,13 @@
     z-index: 2;
     background-color: var(--secondary-color-dark-black);
     font-size: 20px;
-    top: 200%;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     display: none;
-    padding: 2em 1em;
-    padding-top: 1em;
+    padding: 1em;
+    padding-bottom: 2em;
+    margin-top: 5em;
     flex-direction: column;
   }
   .header nav > ul {
