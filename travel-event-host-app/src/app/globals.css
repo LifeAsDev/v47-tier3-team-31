@@ -18,7 +18,9 @@
   --grey-disabled: #8b93a7;
   --font-color-primary: #1d275f;
 }
-
+main {
+  min-height: 100vh;
+}
 body {
   color: var(--third-color-ice-light);
   background: var(--background-color-light-purple);

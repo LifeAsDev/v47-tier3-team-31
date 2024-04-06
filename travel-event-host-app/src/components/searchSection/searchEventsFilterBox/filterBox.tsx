@@ -38,6 +38,7 @@ const FilterBox = ({
   const [distance, setDistance] = useState('Any distance');
   useEffect(() => {
     setCategories(updateCategories());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleDayChange = (event: { target: { value: React.SetStateAction<string> } }) => {
@@ -64,7 +65,7 @@ const FilterBox = ({
           padding: 4,
           color: 'black',
           position: 'sticky',
-          minWidth: '274px',
+          minWidth: '17.25em',
           height: 'min-content',
           top: 0,
         }}
@@ -101,7 +102,8 @@ const FilterBox = ({
               control={
                 <Checkbox checked={checked} onChange={handleCategoryChange} name={category} />
               }
-              label={CategoryDict[category as Category]}
+              label={<p className={styles.checkLabel}>{CategoryDict[category as Category]}</p>}
+              sx={{ label: { fontSize: '16px' } }} // Adjust the font size as needed
             />
           ))}
         </FormGroup>

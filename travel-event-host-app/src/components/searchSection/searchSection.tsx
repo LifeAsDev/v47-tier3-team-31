@@ -48,53 +48,55 @@ export default function SearchSection({ keyword }: { keyword: string }) {
   };
 
   return (
-    <section className={styles.section}>
-      <div
-        onClick={() => setFilterBoxIsOpen(false)}
-        className={`${styles.overlay} ${filterBoxIsOpen ? styles.open : ''}`}
-      ></div>
+    <main>
+      <section className={styles.section}>
+        <div
+          onClick={() => setFilterBoxIsOpen(false)}
+          className={`${styles.overlay} ${filterBoxIsOpen ? styles.open : ''}`}
+        ></div>
 
-      <FilterBox
-        filterBoxIsOpen={filterBoxIsOpen}
-        setCategories={setCategoryCheckboxState}
-        categories={categoryCheckboxState}
-        setFilterBoxIsOpen={setFilterBoxIsOpen}
-      />
-      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '2em' }}>
-          <SearchInput handleSearch={handleSearch} keyword={keyword} />
-          <Select
-            sx={{
-              backgroundColor: 'white',
-              minWidth: '8em',
-              height: 'min-content',
-            }}
-            value={sortBy}
-            onChange={(event) => setSortBy(event.target.value as string)}
-          >
-            <MenuItem value='Relevance'>Revelance</MenuItem>
-            <MenuItem value='Date'>Date</MenuItem>
-          </Select>
+        <FilterBox
+          filterBoxIsOpen={filterBoxIsOpen}
+          setCategories={setCategoryCheckboxState}
+          categories={categoryCheckboxState}
+          setFilterBoxIsOpen={setFilterBoxIsOpen}
+        />
+        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '2em' }}>
+            <SearchInput handleSearch={handleSearch} keyword={keyword} />
+            <Select
+              sx={{
+                backgroundColor: 'white',
+                minWidth: '8em',
+                height: 'min-content',
+              }}
+              value={sortBy}
+              onChange={(event) => setSortBy(event.target.value as string)}
+            >
+              <MenuItem value='Relevance'>Revelance</MenuItem>
+              <MenuItem value='Date'>Date</MenuItem>
+            </Select>
+          </Box>
+          <p onClick={() => setFilterBoxIsOpen(true)} className={styles.filterBtn}>
+            Filters
+          </p>
+          <ul className={styles.eventsGrid}>
+            {resultEventList.length > 0 ? (
+              resultEventList.map((event) => (
+                <li key={event['_id']}>
+                  <Link href={`/event/${event['_id']}`}>
+                    <EventCard hostedEvent={event} />
+                  </Link>
+                </li>
+              ))
+            ) : keyword ? (
+              <p className={styles.eventNotFound}>No events found for "{keyword}"</p>
+            ) : (
+              <p className={styles.eventNotFound}>Please enter search text</p>
+            )}
+          </ul>
         </Box>
-        <p onClick={() => setFilterBoxIsOpen(true)} className={styles.filterBtn}>
-          Filters
-        </p>
-        <ul className={styles.eventsGrid}>
-          {resultEventList.length > 0 ? (
-            resultEventList.map((event) => (
-              <li key={event['_id']}>
-                <Link href={`/event/${event['_id']}`}>
-                  <EventCard hostedEvent={event} />
-                </Link>
-              </li>
-            ))
-          ) : keyword ? (
-            <p className={styles.eventNotFound}>No events found for "{keyword}"</p>
-          ) : (
-            <p className={styles.eventNotFound}>Please enter search text</p>
-          )}
-        </ul>
-      </Box>
-    </section>
+      </section>
+    </main>
   );
 }
