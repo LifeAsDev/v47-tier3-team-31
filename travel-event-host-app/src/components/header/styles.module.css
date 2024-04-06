@@ -16,15 +16,7 @@
   color: var(--third-color-ice-light);
   line-height: 1.3em;
 }
-.header .navList ul {
-  color: var(--third-color-ice-light);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  font-size: 1em;
-  font-weight: 350;
-  gap: 1.5em;
-}
+
 .navList {
   max-width: 773px;
 
@@ -124,6 +116,15 @@
 }
 
 @media only screen and (max-width: 610px) {
+  .header .navList ul {
+    color: var(--third-color-ice-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 1em;
+    font-weight: 350;
+    gap: 1.5em;
+  }
   .mobile {
     display: block;
   }
