@@ -4,7 +4,7 @@ import Event from '@/models/event';
 export async function getEventsBySearchQuery(
   keyword: string,
   categories: Category[],
-): Promise<Event[]> {
+): Promise<Event[] | null> {
   try {
     const searchParams = new URLSearchParams();
 
@@ -25,7 +25,7 @@ export async function getEventsBySearchQuery(
       const data = await response.json();
       return data.events;
     } else {
-      return [];
+      return null;
     }
   } catch (error) {
     throw new Error("Error: Cannot fetch user's events");

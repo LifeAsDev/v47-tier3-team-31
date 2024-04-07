@@ -14,7 +14,7 @@ import Link from 'next/link';
 
 export default function SearchSection({ keyword }: { keyword: string }) {
   const [sortBy, setSortBy] = useState<string>('Date');
-  const [resultEventList, setResultEventList] = useState<Event[]>([]);
+  const [resultEventList, setResultEventList] = useState<Event[] | null>([]);
   const [categoryCheckboxState, setCategoryCheckboxState] = useState<{ [key in string]: boolean }>(
     {},
   );
@@ -81,7 +81,7 @@ export default function SearchSection({ keyword }: { keyword: string }) {
             Filters
           </p>
           <ul className={styles.eventsGrid}>
-            {resultEventList.length > 0 ? (
+            {resultEventList && resultEventList.length > 0 ? (
               resultEventList.map((event) => (
                 <li key={event['_id']}>
                   <Link href={`/event/${event['_id']}`}>
@@ -89,7 +89,7 @@ export default function SearchSection({ keyword }: { keyword: string }) {
                   </Link>
                 </li>
               ))
-            ) : keyword ? (
+            ) : keyword && resultEventList === null ? (
               <p className={styles.eventNotFound}>No events found for "{keyword}"</p>
             ) : (
               <p className={styles.eventNotFound}>Please enter search text</p>
