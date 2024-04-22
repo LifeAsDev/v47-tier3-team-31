@@ -4,7 +4,8 @@ import Event from '@/models/event';
 export async function getEventsBySearchQuery(
   keyword: string,
   categories: Category[],
-): Promise<Event[] | null> {
+  page: number,
+): Promise<any> {
   try {
     const searchParams = new URLSearchParams();
 
@@ -17,13 +18,14 @@ export async function getEventsBySearchQuery(
     if (keyword) {
       searchParams.append('keyword', keyword);
     }
+    searchParams.append('page', String(page));
 
     const apiUrl = `/api/event/search?${searchParams.toString()}`;
 
     const response = await fetch(apiUrl);
     if (response.ok) {
       const data = await response.json();
-      return data.events;
+      return data;
     } else {
       return null;
     }

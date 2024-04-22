@@ -20,8 +20,10 @@ export default function SearchSection({ keyword }: { keyword: string }) {
   );
   const [filterBoxIsOpen, setFilterBoxIsOpen] = useState<boolean>(false);
   const router = useRouter();
-
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const handleSearch = (searchInput: string) => {
+    setPage(1);
     const url = `/search-events/${searchInput}`; // Construct the URL
     router.push(url); // Navigate to the URL
   };
@@ -31,11 +33,16 @@ export default function SearchSection({ keyword }: { keyword: string }) {
       const eventsResultFetch = await getEventsBySearchQuery(
         keyword,
         getCheckedCategories(categoryCheckboxState),
+        page,
       );
-      setResultEventList(eventsResultFetch);
+      if (eventsResultFetch) {
+        setTotalPages(eventsResultFetch.totalPages);
+        setPage(eventsResultFetch.currentPage);
+        setResultEventList(eventsResultFetch.events);
+      }
     };
-    fetch();
-  }, [categoryCheckboxState, keyword]);
+    if (keyword !== '') fetch();
+  }, [categoryCheckboxState, keyword, page]);
 
   const getCheckedCategories = (checkboxState: { [key in string]: boolean }): Category[] => {
     // This gets only the checked categories checkboxes
@@ -97,6 +104,17 @@ export default function SearchSection({ keyword }: { keyword: string }) {
           </ul>
         </Box>
       </section>
+      <div className={styles.pageBox}>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <div
+            onClick={() => setPage(index + 1)}
+            className={`${styles.pageItem} ${page === index + 1 ? styles.pageSelect : ''}`}
+            key={index}
+          >
+            {index + 1}
+          </div>
+        ))}
+      </div>
     </main>
   );
 }
