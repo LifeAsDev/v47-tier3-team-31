@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './styles.module.css';
-import Event from '@/models/event';
+import EventModel from '@/models/event';
 import Image from 'next/image';
 import Skeleton from '@mui/material/Skeleton';
 import { useOnboardingContext } from '@/lib/context';
@@ -13,7 +13,7 @@ export default function Event({
   setAttendeesArr,
 }: {
   setAttendeesArr: React.Dispatch<React.SetStateAction<Attendees[] | undefined>>;
-  eventData: Event | undefined;
+  eventData: EventModel | undefined;
   attendeesArr: Attendees[] | undefined;
 }) {
   function formatDate(dateString: string) {

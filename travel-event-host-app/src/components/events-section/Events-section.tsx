@@ -17,7 +17,7 @@ interface EventsSectionProps {
 }
 
 export default function EventsSection({
-  title = 'Upcoming Events',
+  title = 'Last Events',
   hostedEvents = [],
   onLoadMoreEventsButtonClicked = () => {
     return false;
@@ -37,7 +37,6 @@ export default function EventsSection({
         paddingTop: '3rem',
         display: 'flex',
         minHeight: '28rem',
-        justifyContent: 'space-between',
         flexDirection: 'column',
         paddingBottom: 0,
       }}
@@ -61,8 +60,8 @@ export default function EventsSection({
           [theme.breakpoints.up(720)]: {
             flexWrap: 'wrap',
             display: 'flex',
-            justifyContent: 'space-between',
             marginTop: '3rem',
+            justifyContent: 'space-evenly',
           },
           [theme.breakpoints.down(719)]: {
             flexDirection: 'column',
@@ -74,30 +73,6 @@ export default function EventsSection({
         ) : (
           renderEventCards(hostedEvents, handleOnLoadMoreButtonClick)
         )}
-      </Box>
-      {/* This will be the button to load more events */}
-      <Box display='flex' justifyContent={'center'} mt={3}>
-        <CommonButton
-          disabled={isLoading}
-          label='Load More'
-          onButtonClick={handleOnLoadMoreButtonClick}
-          additionalStyles={{
-            '&&&.Mui-disabled': {
-              borderColor: theme.palette.primary.greyDisabled,
-              color: theme.palette.primary.greyDisabled,
-              borderWidth: '0.5px',
-            },
-            [theme.breakpoints.down(720)]: {
-              maxWidth: '100px',
-              maxHeight: '40px',
-              padding: '2px',
-              fontSize: '0.6rem',
-              '&.MuiButtonBase-root': {
-                borderWidth: '1px',
-              },
-            },
-          }}
-        />
       </Box>
     </Box>
   );
@@ -111,7 +86,7 @@ const renderEventCards = (
   if (!hostedEvents || hostedEvents.length === 0)
     return (
       <Typography
-        sx={{ margin: 'auto' }}
+        sx={{ margin: 'auto', marginTop: '2em' }}
         variant='h3'
         color={theme.palette.primary.primaryColorDarkerBlue}
       >

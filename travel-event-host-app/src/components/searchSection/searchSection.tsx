@@ -91,9 +91,7 @@ export default function SearchSection({ keyword }: { keyword: string }) {
             {resultEventList && resultEventList.length > 0 ? (
               resultEventList.map((event) => (
                 <li key={event['_id']}>
-                  <Link href={`/event/${event['_id']}`}>
-                    <EventCard hostedEvent={event} />
-                  </Link>
+                  <EventCard hostedEvent={event} />
                 </li>
               ))
             ) : keyword && resultEventList === null ? (

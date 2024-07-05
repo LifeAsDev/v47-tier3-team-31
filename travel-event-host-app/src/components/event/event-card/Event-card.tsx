@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import HostedEvent from '../../../models/event';
 import styles from './event-card.module.css';
+import Link from 'next/link';
 
 interface EventCardProps {
   hostedEvent: HostedEvent;
@@ -16,106 +17,111 @@ export default function EventCard({ hostedEvent, onCardClick }: EventCardProps) 
   };
   const theme = useTheme();
   return (
-    <Box
-      onClick={() => handleCardClick(hostedEvent._id)}
-      sx={{
-        '&:hover': {
-          cursor: 'pointer',
-        },
-      }}
-    >
-      <Card
+    <Link href={`/event/${hostedEvent._id}`}>
+      <Box
+        onClick={() => handleCardClick(hostedEvent._id)}
         sx={{
-          width: '280px', // Change this value to change the width of the card
-          margin: '1%',
-          [theme.breakpoints.down(719)]: {
-            width: '100%',
-            boxShadow: 'none',
-            borderRadius: '0px',
-            marginRight: 0,
-            height: '140px',
-          },
           '&:hover': {
-            boxShadow: '0px 0px 10px 10px rgba(0,0,0,0.2)',
+            cursor: 'pointer',
           },
-          height: '270px',
-          overflow: 'hidden',
         }}
       >
-        <Box
-          className='responsiveCard'
+        <Card
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
+            width: '280px', // Change this value to change the width of the card
+            margin: '1%',
             [theme.breakpoints.down(719)]: {
-              flexDirection: 'row-reverse',
-              justifyContent: 'space-between',
+              width: '100%',
+              boxShadow: 'none',
+              borderRadius: '0px',
+              marginRight: 0,
+              height: '140px',
             },
-            height: '100%',
+            '&:hover': {
+              boxShadow: '0px 0px 10px 10px rgba(0,0,0,0.2)',
+            },
+            height: '270px',
+            overflow: 'hidden',
           }}
         >
           <Box
-            sx={{ [theme.breakpoints.down(719)]: { width: '40%', height: '100%' }, height: '60%' }}
-          >
-            <Image
-              src={getEventImage(hostedEvent.imageUrl)}
-              fill
-              alt='event image'
-              className={styles.eventImage}
-            />
-          </Box>
-          <CardContent
+            className='responsiveCard'
             sx={{
               display: 'flex',
-              padding: '12px !important',
+              flexDirection: 'column',
               [theme.breakpoints.down(719)]: {
-                '&.MuiCardContent-root:last-child': {
-                  padding: 0,
-                },
-                height: '100%',
-                width: '60%',
+                flexDirection: 'row-reverse',
+                justifyContent: 'space-between',
               },
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '40%',
-              boxSizing: 'border-box',
+              height: '100%',
             }}
           >
             <Box
-              className='dateTitleContentContainer'
               sx={{
-                display: 'flex',
-                [theme.breakpoints.down(719)]: {
-                  paddingTop: '10px',
-                  paddingLeft: '0',
-                },
-                height: '100%',
-                width: '100%',
+                [theme.breakpoints.down(719)]: { width: '40%', height: '100%' },
+                height: '60%',
               }}
             >
-              <Box sx={{ textAlign: 'center' }}>
-                <CalendarDateComponent date={hostedEvent.startDate} />
-              </Box>
-              <Box sx={{ overflow: 'hidden', height: '100%' }} ml={2}>
-                <CustomResponsiveTypoGraphy style={{ lineHeight: 1, fontWeight: 'bold' }}>
-                  {hostedEvent.title || 'Mock event title'}
-                </CustomResponsiveTypoGraphy>
-                <CustomResponsiveTypoGraphy
-                  mt={2}
-                  sx={{
-                    lineHeight: 1,
-                    color: '#6A6A6A',
-                    [theme.breakpoints.down(420)]: {},
-                  }}
-                >
-                  {hostedEvent.description || 'Mock event description'}
-                </CustomResponsiveTypoGraphy>
-              </Box>
+              <Image
+                src={getEventImage(hostedEvent.imageUrl)}
+                fill
+                alt='event image'
+                className={styles.eventImage}
+              />
             </Box>
-          </CardContent>
-        </Box>
-      </Card>
-    </Box>
+            <CardContent
+              sx={{
+                display: 'flex',
+                padding: '12px !important',
+                [theme.breakpoints.down(719)]: {
+                  '&.MuiCardContent-root:last-child': {
+                    padding: 0,
+                  },
+                  height: '100%',
+                  width: '60%',
+                },
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '40%',
+                boxSizing: 'border-box',
+              }}
+            >
+              <Box
+                className='dateTitleContentContainer'
+                sx={{
+                  display: 'flex',
+                  [theme.breakpoints.down(719)]: {
+                    paddingTop: '10px',
+                    paddingLeft: '0',
+                  },
+                  height: '100%',
+                  width: '100%',
+                }}
+              >
+                <Box sx={{ textAlign: 'center' }}>
+                  <CalendarDateComponent date={hostedEvent.startDate} />
+                </Box>
+                <Box sx={{ overflow: 'hidden', height: '100%' }} ml={2}>
+                  <CustomResponsiveTypoGraphy style={{ lineHeight: 1, fontWeight: 'bold' }}>
+                    {hostedEvent.title || 'Mock event title'}
+                  </CustomResponsiveTypoGraphy>
+                  <CustomResponsiveTypoGraphy
+                    mt={2}
+                    sx={{
+                      lineHeight: 1,
+                      color: '#6A6A6A',
+                      [theme.breakpoints.down(420)]: {},
+                    }}
+                  >
+                    {hostedEvent.description || 'Mock event description'}
+                  </CustomResponsiveTypoGraphy>
+                </Box>
+              </Box>
+            </CardContent>
+          </Box>
+        </Card>
+      </Box>
+    </Link>
   );
 }
 

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/lib/mongodb';
 import Event from '@/schemas/event';
+import User from '@/schemas/user'; // Asegúrate de importar el modelo de User
 import mongoose from 'mongoose';
 
 export async function PATCH(req: Request, { params }: any) {
@@ -26,10 +27,28 @@ export async function PATCH(req: Request, { params }: any) {
         (participant: { userId: string; timeStamp: Date }) => participant.userId !== userId,
       );
       await eventFound.save();
-      return NextResponse.json({ message: 'User unregistered' }, { status: 200 });
+
+      // Elimina el id del evento de la lista eventsId del usuario
+      const userFound = await User.findById(userId);
+      if (userFound) {
+        console.log('userFound');
+        if (!userFound.eventIds) {
+          userFound.eventIds = [];
+        }
+        userFound.eventIds = userFound.eventIds.filter(
+          (eventId: { toString: () => any }) => eventId.toString() !== id,
+        );
+        await userFound.save();
+        return NextResponse.json(
+          { message: 'User unregistered and event removed from user' },
+          { status: 200 },
+        );
+      } else {
+        return NextResponse.json({ message: 'User does not exist' }, { status: 400 });
+      }
     }
 
-    return NextResponse.json({ message: 'User no present on event' }, { status: 400 });
+    return NextResponse.json({ message: 'User not present on event' }, { status: 400 });
   } else {
     return NextResponse.json({ message: 'Event does not exist' }, { status: 404 });
   }
